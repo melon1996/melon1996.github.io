@@ -1,7 +1,7 @@
 ---
 title: 前端路由
 date: 2022-07-10 21:22:05
-tags: vue
+categories: vue
 ---
 ## 前言
 
