@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>二叉树的遍历 | 从心的blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="二叉树 前序遍历-根左右：A-B-D-F-G-H-I-E-C中序遍历-左根右：F-D-H-G-I-B-E-A-C后序遍历-左右根：F-H-I-G-D-E-B-C-A 1. 实现二叉树的中序遍历 递归方法定义 inorder(root) 表示当前遍历到 root 节点的答案，那么按照定义，我们只要递归调用 inorder(root.left) 来遍历 root 节点的左子树，然后将 root 节点的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树的遍历">
+<meta property="og:url" content="http://melon1996.github.io/2022/11/06/algorithm/tree/tranverse/index.html">
+<meta property="og:site_name" content="从心的blog">
+<meta property="og:description" content="二叉树 前序遍历-根左右：A-B-D-F-G-H-I-E-C中序遍历-左根右：F-D-H-G-I-B-E-A-C后序遍历-左右根：F-H-I-G-D-E-B-C-A 1. 实现二叉树的中序遍历 递归方法定义 inorder(root) 表示当前遍历到 root 节点的答案，那么按照定义，我们只要递归调用 inorder(root.left) 来遍历 root 节点的左子树，然后将 root 节点的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://melon1996.github.io/images/tree/1.png">
+<meta property="og:image" content="http://melon1996.github.io/images/tree/2.png">
+<meta property="article:published_time" content="2022-11-06T08:17:59.000Z">
+<meta property="article:modified_time" content="2022-11-06T09:22:43.269Z">
+<meta property="article:author" content="xin chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://melon1996.github.io/images/tree/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="从心的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">从心的blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://melon1996.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-algorithm/tree/tranverse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/06/algorithm/tree/tranverse/" class="article-date">
+  <time class="dt-published" datetime="2022-11-06T08:17:59.000Z" itemprop="datePublished">2022-11-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      二叉树的遍历
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p><img src="/images/tree/1.png" alt="二叉树"></p>
+<p>前序遍历-根左右：A-B-D-F-G-H-I-E-C<br>中序遍历-左根右：F-D-H-G-I-B-E-A-C<br>后序遍历-左右根：F-H-I-G-D-E-B-C-A</p>
+<h2 id="1-实现二叉树的中序遍历"><a href="#1-实现二叉树的中序遍历" class="headerlink" title="1. 实现二叉树的中序遍历"></a>1. 实现二叉树的中序遍历</h2><ol>
+<li>递归方法<br>定义 <code>inorder(root)</code> 表示当前遍历到 <code>root</code> 节点的答案，那么按照定义，我们只要递归调用 <code>inorder(root.left)</code> 来遍历 <code>root</code> 节点的左子树，然后将 <code>root</code> 节点的值加入答案，再递归调用<code>inorder(root.right)</code> 来遍历 <code>root</code> 节点的右子树即可，递归终止的条件为碰到空节点。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> inorderTraversal = <span class="keyword">function</span>(<span class="params">root</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = [];</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">inorder</span> = (<span class="params">root</span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_">inorder</span>(root.<span class="property">left</span>);</span><br><span class="line">        res.<span class="title function_">push</span>(root.<span class="property">val</span>);</span><br><span class="line">        <span class="title function_">inorder</span>(root.<span class="property">right</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">inorder</span>(root);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>迭代方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> inorderTraversal = <span class="keyword">function</span>(<span class="params">root</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = [];</span><br><span class="line">    <span class="keyword">const</span> stk = [];</span><br><span class="line">    <span class="keyword">while</span> (root || stk.<span class="property">length</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (root) &#123;</span><br><span class="line">            stk.<span class="title function_">push</span>(root);</span><br><span class="line">            root = root.<span class="property">left</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        root = stk.<span class="title function_">pop</span>();</span><br><span class="line">        res.<span class="title function_">push</span>(root.<span class="property">val</span>);</span><br><span class="line">        root = root.<span class="property">right</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="2-给出一个二叉树的最大深度"><a href="#2-给出一个二叉树的最大深度" class="headerlink" title="2. 给出一个二叉树的最大深度"></a>2. 给出一个二叉树的最大深度</h2><p>比如，图中二叉树的最大深度是3</p>
+<p><img src="/images/tree/2.png" alt="depth"></p>
+<p>深度优先搜索</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">var</span> maxDepth = <span class="keyword">function</span>(<span class="params">root</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Math</span>.<span class="title function_">max</span>(<span class="title function_">maxDepth</span>(root.<span class="property">left</span>),<span class="title function_">maxDepth</span>(root.<span class="property">right</span>))+<span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://melon1996.github.io/2022/11/06/algorithm/tree/tranverse/" data-id="cla56sf690005gsvq4vnp4qjl" data-title="二叉树的遍历" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/07/18/algorithm/linkedList/reverse/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">反转链表</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ES6/">ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue/">vue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/11/06/algorithm/tree/tranverse/">二叉树的遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/18/algorithm/linkedList/reverse/">反转链表</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/10/vue/router/">前端路由</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/28/es6/tail-call/">函数尾调用</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/27/es6/arrow-function/">箭头函数</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 xin chen<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
