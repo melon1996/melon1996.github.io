@@ -6,6 +6,9 @@ categories: algorithm
 
 ## 1. 翻转一个链表
 
+**描述：**
+定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。
+
 **样例1：**
 
   输入：
@@ -80,8 +83,7 @@ export class Solution {
 
 - 步骤一：先将待反转的区域反转
 - 步骤二：把 pre 的 next 指针指向反转以后的链表头节点，把反转以后的链表的尾节点的 next 指针指向 succ
-![题2](./reverse/2.jpg)
-{% asset_path 2.jpg %}
+![题2](images/reverse/2.jpg)
 
 ```javascript
 export class Solution {
