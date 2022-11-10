@@ -1,7 +1,7 @@
 ---
 title: 反转链表
 date: 2022-07-18 21:55:44
-categories: algorithm
+tags: algorithm
 ---
 
 ## 1. 翻转一个链表

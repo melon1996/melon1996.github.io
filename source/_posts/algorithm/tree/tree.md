@@ -1,7 +1,7 @@
 ---
 title: 二叉树的遍历
 date: 2022-11-06 16:17:59
-categories: algorithm
+tags: algorithm
 ---
 
 ## 二叉树
@@ -133,5 +133,34 @@ var mergeTrees = function(root1, root2) {
     newTree.left = mergeTrees(root1.left, root2.left);
     newTree.right = mergeTrees(root1.right, root2.right);
     return newTree;//返回合并树
+};
+```
+
+## 5. 二叉树的直径
+
+**描述**
+
+给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。
+
+**样例**
+
+![5](images/tree/5.png)
+
+返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。
+
+**题解**
+
+```javascript
+var diameterOfBinaryTree = function(root) {
+    let height = 0
+    function helper(node){
+      if(!node) return 0
+      let left = helper(node.left),
+      right = helper(node.right)
+      height = Math.max(left + right, height) //左子树深度 + 右子树深度
+      return Math.max(left,right) + 1 //以该节点为根节点的最大深度
+    }
+    helper(root)
+    return height
 };
 ```

@@ -6,7 +6,7 @@
 hexo new <title>
 ```
 
-2. 在指定文件夹中创建文章，需要执行，即可在source/<path>路径下创建名为title的md文件和文件夹
+2. 在指定文件夹中创建文章，需要执行，即可在source/_posts/<path>路径下创建名为title的md文件和文件夹
 ```
 hexo new page --path <path> <title>
 ```

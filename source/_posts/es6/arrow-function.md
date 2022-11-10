@@ -1,7 +1,7 @@
 ---
 title: 箭头函数
 date: 2022-01-27 16:19:36
-categories: ES6
+tags: ES6
 ---
 
 ## 使用
