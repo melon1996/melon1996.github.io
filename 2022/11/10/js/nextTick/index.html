@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>事件循环 | 从心的blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. 任务队列所有的任务可以分为同步任务和异步任务。 同步任务，顾名思义，就是立即执行的任务，同步任务一般会直接进入到主线程中执行；而异步任务，就是异步执行的任务，比如ajax网络请求，setTimeout 定时函数等都属于异步任务，异步任务会通过任务队列( Event Queue )的机制来进行协调。 同步和异步任务分别进入不同的执行环境，同步的进入主线程，即主执行栈，异步的进入 Event Q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件循环">
+<meta property="og:url" content="http://melon1996.github.io/2022/11/10/js/nextTick/index.html">
+<meta property="og:site_name" content="从心的blog">
+<meta property="og:description" content="1. 任务队列所有的任务可以分为同步任务和异步任务。 同步任务，顾名思义，就是立即执行的任务，同步任务一般会直接进入到主线程中执行；而异步任务，就是异步执行的任务，比如ajax网络请求，setTimeout 定时函数等都属于异步任务，异步任务会通过任务队列( Event Queue )的机制来进行协调。 同步和异步任务分别进入不同的执行环境，同步的进入主线程，即主执行栈，异步的进入 Event Q">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy82MTAwNTAyLTc4MzEzODliZWMzN2ZlNTIucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/e3ecf9294d3301ffe544eced8e1da767.png">
+<meta property="article:published_time" content="2022-11-10T12:55:23.000Z">
+<meta property="article:modified_time" content="2022-11-10T14:32:03.540Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy82MTAwNTAyLTc4MzEzODliZWMzN2ZlNTIucG5n?x-oss-process=image/format,png">
+  
+    <link rel="alternate" href="/atom.xml" title="从心的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">从心的blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://melon1996.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-js/nextTick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/10/js/nextTick/" class="article-date">
+  <time class="dt-published" datetime="2022-11-10T12:55:23.000Z" itemprop="datePublished">2022-11-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      事件循环
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-任务队列"><a href="#1-任务队列" class="headerlink" title="1. 任务队列"></a>1. 任务队列</h2><p>所有的任务可以分为同步任务和异步任务。</p>
+<p>同步任务，顾名思义，就是立即执行的任务，同步任务一般会直接进入到主线程中执行；而异步任务，就是异步执行的任务，比如ajax网络请求，setTimeout 定时函数等都属于异步任务，异步任务会通过任务队列( Event Queue )的机制来进行协调。</p>
+<p>同步和异步任务分别进入不同的执行环境，同步的进入主线程，即主执行栈，异步的进入 Event Queue 。主线程内的任务执行完毕为空，会去 Event Queue 读取对应的任务，推入主线程执行。 上述过程的不断重复就是我们说的 Event Loop (事件循环)。</p>
+<p>下图描述了事件循环机制<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy82MTAwNTAyLTc4MzEzODliZWMzN2ZlNTIucG5n?x-oss-process=image/format,png" alt="task"></p>
+<h2 id="2-宏任务和微任务"><a href="#2-宏任务和微任务" class="headerlink" title="2. 宏任务和微任务"></a>2. 宏任务和微任务</h2><p>JS中分为两种任务类型：<strong>macrotask</strong>和<strong>microtask</strong>，在ECMAScript中，microtask称为jobs，macrotask可称为task</p>
+<h3 id="macrotask"><a href="#macrotask" class="headerlink" title="macrotask"></a>macrotask</h3><p>又称之为宏任务，可以理解是每次执行栈执行的代码就是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）；<br>每一个task会从头到尾将这个任务执行完毕，不会执行其它<br>浏览器为了能够使得JS内部task与DOM任务能够有序的执行，会在一个task执行结束后，在下一个 task 执行开始前，对页面进行重新渲染 （<em>task-&gt;渲染-&gt;task-&gt;</em>…）</p>
+<h3 id="microtask"><a href="#microtask" class="headerlink" title="microtask"></a>microtask</h3><p>又称为微任务，可以理解是在当前 task 执行结束后立即执行的任务，也就是说，<em>在当前task任务后，下一个task之前，在渲染之前</em>；<br>所以它的响应速度相比setTimeout（setTimeout是task）会更快，因为无需等渲染，也就是说，<strong>在某一个macrotask执行完后，就会将在它执行期间产生的所有microtask都执行完毕（在渲染前）</strong></p>
+<p>(macro)task 主要包含：script( 整体代码)、setTimeout、setInterval、I&#x2F;O、UI 交互事件、setImmediate(Node.js 环境);</p>
+<p>microtask主要包含：Promise、MutaionObserver、process.nextTick(Node.js 环境)</p>
+<p>在node环境下，process.nextTick的优先级高于Promise，也就是可以简单理解为：在宏任务结束后会先执行微任务队列中的nextTickQueue部分，然后才会执行微任务中的Promise部分。</p>
+<p><strong>总结</strong> </p>
+<ul>
+<li>执行一个宏任务（栈中没有就从事件队列中获取）</li>
+<li>执行过程中如果遇到微任务，就将它添加到微任务的任务队列中</li>
+<li>宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）</li>
+<li>当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染<br>渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）</li>
+</ul>
+<h2 id="3-执行栈"><a href="#3-执行栈" class="headerlink" title="3.执行栈"></a>3.执行栈</h2><p>当我们执行一个方法时，JS会生成一个与这个方法对象的执行环境，又叫做执行上下文。<br>这个执行上下文中有这个方法的私有作用域、上次作用域的指向、方法的参数、私有作用域中定义的变量以及this对象。<br>这个执行环境会被添加到一个栈中，这个栈就是执行栈。</p>
+<h2 id="4-Vue的异步更新队列"><a href="#4-Vue的异步更新队列" class="headerlink" title="4. Vue的异步更新队列"></a>4. Vue的异步更新队列</h2><p>Vue中DOM的更新是异步的，是在微任务中更新DOM。</p>
+<blockquote><p>Vue 在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。Vue 在内部对异步队列尝试使用原生的<code>Promise.then</code>等。  </p>
+<footer><strong>https://v2.cn.vuejs.org/</strong></footer></blockquote>
+
+<p>例如，当你设置 vm.someData &#x3D; ‘new value’，该组件不会立即重新渲染。当刷新队列时，组件会在下一个事件循环“tick”中更新。多数情况我们不需要关心这个过程，但是如果你想基于更新后的 DOM 状态来做点什么，这就可能会有些棘手。虽然 Vue.js 通常鼓励开发人员使用“数据驱动”的方式思考，避免直接接触 DOM，但是有时我们必须要这么做。为了在数据变化之后等待 Vue 完成更新 DOM，可以在数据变化之后立即使用<code>Vue.nextTick(callback)</code>。这样回调函数将在 DOM 更新完成后被调用。  </p>
+<p>也就是说，当我们想要改变vue中的某个数据的值时，vue不会立即重新渲染，数据不会立即发生改变，而是会在下一次事件循环的时候更新。这主要是因为<em>Vue中DOM的操作是异步的</em></p>
+<p><code>nextTick()</code>的应用场景主要是：</p>
+<ol>
+<li>在Vue生命周期的<code>created()</code>钩子函数进行的DOM操作一定要放在<code>Vue.nextTick()</code>的回调函数中</li>
+<li>在数据变化后要执行的某个操作，而这个操作需要使用随数据改变而改变的DOM结构的时候，这个操作都应该放进<code>Vue.nextTick()</code>的回调函数中。</li>
+</ol>
+<h1 id="5-举例"><a href="#5-举例" class="headerlink" title="5. 举例"></a>5. 举例</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/e3ecf9294d3301ffe544eced8e1da767.png" alt="在这里插入图片描述"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;hello&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; msg &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;item in list&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;item.id&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;list&quot;</span>&gt;</span>&#123;&#123; item.id &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;addItem&quot;</span>&gt;</span>添加<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">var</span> list = [&#123; <span class="attr">id</span>: <span class="number">1</span> &#125;, &#123; <span class="attr">id</span>: <span class="number">2</span> &#125;, &#123; <span class="attr">id</span>: <span class="number">3</span> &#125;, &#123; <span class="attr">id</span>: <span class="number">4</span> &#125;];</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">name</span>: <span class="string">&quot;HelloWorld&quot;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">props</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">msg</span>: <span class="title class_">String</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">return</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      list,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="title function_">addItem</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="keyword">let</span> length = <span class="variable language_">this</span>.<span class="property">list</span>.<span class="property">length</span>+<span class="number">1</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">this</span>.<span class="property">list</span>.<span class="title function_">push</span>(&#123; <span class="attr">id</span>: length &#125;);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">list</span>);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">this</span>.$nextTick(<span class="function">()=&gt;</span>&#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">list</span>,<span class="string">&#x27;in nextTick&#x27;</span>)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      &#125;)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>每次点击添加按钮会在列表中添加一条字段，从控制台中可以看到方法中打印的list和在nextTick中打印的list并不一样，这是因为<strong>vue中的DOM是异步更新的</strong>，为了最小化性能开销，所以一次事件中的所有数据变更，并不会同步的去更新 DOM，而是等待事件结束后，进行数据比对，计算出差异，然后一次性的变动 DOM。因此，两次 console.log 的结果不同。<br>事件中的 console.log 是同步执行的，在 list 数据中插入数据后，就进行了打印，但此时的事件并未结束，DOM 也尚未发生变动，因此打印结果依旧是原有的 li 数量。而 $nextTick 中的代码则是异步的、延迟调用的，待 DOM 变更结束后，去调用这一部分代码。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://melon1996.github.io/2022/11/10/js/nextTick/" data-id="clab66or70001r4vq430tai6g" data-title="事件循环" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/10/js/chrome/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          在地址栏输入url到页面展示这中间发生了什么
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/06/algorithm/tree/tree/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">二叉树的遍历</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ES6/" style="font-size: 20px;">ES6</a> <a href="/tags/algorithm/" style="font-size: 20px;">algorithm</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/11/10/js/chrome/">在地址栏输入url到页面展示这中间发生了什么</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/10/js/nextTick/">事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/algorithm/tree/tree/">二叉树的遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/18/algorithm/linkedList/reverse/">反转链表</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/10/vue/router/">前端路由</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 xin chen<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

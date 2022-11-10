@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在地址栏输入url到页面展示这中间发生了什么 | 从心的blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. 进程和线程进程（Process）：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。线程（thread）：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。 一个进程至少有一个执行的主线程，也可以开启新的执行线程；进程之间的是通过TCP&#x2F;IP的端口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在地址栏输入url到页面展示这中间发生了什么">
+<meta property="og:url" content="http://melon1996.github.io/2022/11/10/js/chrome/index.html">
+<meta property="og:site_name" content="从心的blog">
+<meta property="og:description" content="1. 进程和线程进程（Process）：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。线程（thread）：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。 一个进程至少有一个执行的主线程，也可以开启新的执行线程；进程之间的是通过TCP&#x2F;IP的端口">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-11-10T13:30:33.000Z">
+<meta property="article:modified_time" content="2022-11-10T14:02:09.303Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="从心的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">从心的blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://melon1996.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-js/chrome" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/10/js/chrome/" class="article-date">
+  <time class="dt-published" datetime="2022-11-10T13:30:33.000Z" itemprop="datePublished">2022-11-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在地址栏输入url到页面展示这中间发生了什么
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-进程和线程"><a href="#1-进程和线程" class="headerlink" title="1. 进程和线程"></a>1. 进程和线程</h1><p><strong>进程（Process）</strong>：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。<br><strong>线程（thread）</strong>：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。</p>
+<p>一个进程至少有一个执行的主线程，也可以开启新的执行线程；<br>进程之间的是通过TCP&#x2F;IP的端口来实现交互的；<br>线程的通信就比较简单，有一大块共享的内存，只要大家的指针是同一个就可以看到各自的内存。</p>
+<p><strong>总结</strong> </p>
+<ol>
+<li>进程要分配一大部分的内存，而线程只需要分配一部分栈就可以了； </li>
+<li>一个程序至少有一个进程,一个进程至少有一个线程；</li>
+<li>进程是资源分配的最小单位，线程是程序执行的最小单位；</li>
+<li>一个线程可以创建和撤销另一个线程，同一个进程中的多个线程之间可以并发执行。</li>
+</ol>
+<h1 id="2-Chrome浏览器进程"><a href="#2-Chrome浏览器进程" class="headerlink" title="2. Chrome浏览器进程"></a>2. Chrome浏览器进程</h1><ol>
+<li>浏览器进程：浏览器的主进程，主要负责界面显示、用户交互、子进程管理，同时提供存储等功能；</li>
+<li>渲染进程：核心任务是将HTML,CSS,JavaScript转换为用户可与之交互的网页；排版Blink和JS引擎V8都运行在该进程中；默认情况，Chorme会为每个TAB标签创建一个渲染进程；处于安全考虑，渲染进程都运行在沙箱模式下；</li>
+<li>插件进程：控制网站使用的所有插件；</li>
+<li>GPU：绘制Chrome的UI界面；</li>
+<li>网络进程：负责页面网络资源加载。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://melon1996.github.io/2022/11/10/js/chrome/" data-id="clab66or10000r4vq3nl48eg2" data-title="在地址栏输入url到页面展示这中间发生了什么" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/11/10/js/nextTick/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">事件循环</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ES6/" style="font-size: 20px;">ES6</a> <a href="/tags/algorithm/" style="font-size: 20px;">algorithm</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/11/10/js/chrome/">在地址栏输入url到页面展示这中间发生了什么</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/10/js/nextTick/">事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/algorithm/tree/tree/">二叉树的遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/18/algorithm/linkedList/reverse/">反转链表</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/10/vue/router/">前端路由</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 xin chen<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

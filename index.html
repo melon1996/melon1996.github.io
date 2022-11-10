@@ -71,16 +71,12 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-algorithm/tree/tranverse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-js/chrome" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/11/06/algorithm/tree/tranverse/" class="article-date">
-  <time class="dt-published" datetime="2022-11-06T08:17:59.000Z" itemprop="datePublished">2022-11-06</time>
+    <a href="/2022/11/10/js/chrome/" class="article-date">
+  <time class="dt-published" datetime="2022-11-10T13:30:33.000Z" itemprop="datePublished">2022-11-10</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -89,7 +85,135 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/06/algorithm/tree/tranverse/">二叉树的遍历</a>
+      <a class="p-name article-title" href="/2022/11/10/js/chrome/">在地址栏输入url到页面展示这中间发生了什么</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-进程和线程"><a href="#1-进程和线程" class="headerlink" title="1. 进程和线程"></a>1. 进程和线程</h1><p><strong>进程（Process）</strong>：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。<br><strong>线程（thread）</strong>：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。</p>
+<p>一个进程至少有一个执行的主线程，也可以开启新的执行线程；<br>进程之间的是通过TCP&#x2F;IP的端口来实现交互的；<br>线程的通信就比较简单，有一大块共享的内存，只要大家的指针是同一个就可以看到各自的内存。</p>
+<p><strong>总结</strong> </p>
+<ol>
+<li>进程要分配一大部分的内存，而线程只需要分配一部分栈就可以了； </li>
+<li>一个程序至少有一个进程,一个进程至少有一个线程；</li>
+<li>进程是资源分配的最小单位，线程是程序执行的最小单位；</li>
+<li>一个线程可以创建和撤销另一个线程，同一个进程中的多个线程之间可以并发执行。</li>
+</ol>
+<h1 id="2-Chrome浏览器进程"><a href="#2-Chrome浏览器进程" class="headerlink" title="2. Chrome浏览器进程"></a>2. Chrome浏览器进程</h1><ol>
+<li>浏览器进程：浏览器的主进程，主要负责界面显示、用户交互、子进程管理，同时提供存储等功能；</li>
+<li>渲染进程：核心任务是将HTML,CSS,JavaScript转换为用户可与之交互的网页；排版Blink和JS引擎V8都运行在该进程中；默认情况，Chorme会为每个TAB标签创建一个渲染进程；处于安全考虑，渲染进程都运行在沙箱模式下；</li>
+<li>插件进程：控制网站使用的所有插件；</li>
+<li>GPU：绘制Chrome的UI界面；</li>
+<li>网络进程：负责页面网络资源加载。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://melon1996.github.io/2022/11/10/js/chrome/" data-id="clab66or10000r4vq3nl48eg2" data-title="在地址栏输入url到页面展示这中间发生了什么" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js/nextTick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/10/js/nextTick/" class="article-date">
+  <time class="dt-published" datetime="2022-11-10T12:55:23.000Z" itemprop="datePublished">2022-11-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/10/js/nextTick/">事件循环</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-任务队列"><a href="#1-任务队列" class="headerlink" title="1. 任务队列"></a>1. 任务队列</h2><p>所有的任务可以分为同步任务和异步任务。</p>
+<p>同步任务，顾名思义，就是立即执行的任务，同步任务一般会直接进入到主线程中执行；而异步任务，就是异步执行的任务，比如ajax网络请求，setTimeout 定时函数等都属于异步任务，异步任务会通过任务队列( Event Queue )的机制来进行协调。</p>
+<p>同步和异步任务分别进入不同的执行环境，同步的进入主线程，即主执行栈，异步的进入 Event Queue 。主线程内的任务执行完毕为空，会去 Event Queue 读取对应的任务，推入主线程执行。 上述过程的不断重复就是我们说的 Event Loop (事件循环)。</p>
+<p>下图描述了事件循环机制<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy82MTAwNTAyLTc4MzEzODliZWMzN2ZlNTIucG5n?x-oss-process=image/format,png" alt="task"></p>
+<h2 id="2-宏任务和微任务"><a href="#2-宏任务和微任务" class="headerlink" title="2. 宏任务和微任务"></a>2. 宏任务和微任务</h2><p>JS中分为两种任务类型：<strong>macrotask</strong>和<strong>microtask</strong>，在ECMAScript中，microtask称为jobs，macrotask可称为task</p>
+<h3 id="macrotask"><a href="#macrotask" class="headerlink" title="macrotask"></a>macrotask</h3><p>又称之为宏任务，可以理解是每次执行栈执行的代码就是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）；<br>每一个task会从头到尾将这个任务执行完毕，不会执行其它<br>浏览器为了能够使得JS内部task与DOM任务能够有序的执行，会在一个task执行结束后，在下一个 task 执行开始前，对页面进行重新渲染 （<em>task-&gt;渲染-&gt;task-&gt;</em>…）</p>
+<h3 id="microtask"><a href="#microtask" class="headerlink" title="microtask"></a>microtask</h3><p>又称为微任务，可以理解是在当前 task 执行结束后立即执行的任务，也就是说，<em>在当前task任务后，下一个task之前，在渲染之前</em>；<br>所以它的响应速度相比setTimeout（setTimeout是task）会更快，因为无需等渲染，也就是说，<strong>在某一个macrotask执行完后，就会将在它执行期间产生的所有microtask都执行完毕（在渲染前）</strong></p>
+<p>(macro)task 主要包含：script( 整体代码)、setTimeout、setInterval、I&#x2F;O、UI 交互事件、setImmediate(Node.js 环境);</p>
+<p>microtask主要包含：Promise、MutaionObserver、process.nextTick(Node.js 环境)</p>
+<p>在node环境下，process.nextTick的优先级高于Promise，也就是可以简单理解为：在宏任务结束后会先执行微任务队列中的nextTickQueue部分，然后才会执行微任务中的Promise部分。</p>
+<p><strong>总结</strong> </p>
+<ul>
+<li>执行一个宏任务（栈中没有就从事件队列中获取）</li>
+<li>执行过程中如果遇到微任务，就将它添加到微任务的任务队列中</li>
+<li>宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）</li>
+<li>当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染<br>渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）</li>
+</ul>
+<h2 id="3-执行栈"><a href="#3-执行栈" class="headerlink" title="3.执行栈"></a>3.执行栈</h2><p>当我们执行一个方法时，JS会生成一个与这个方法对象的执行环境，又叫做执行上下文。<br>这个执行上下文中有这个方法的私有作用域、上次作用域的指向、方法的参数、私有作用域中定义的变量以及this对象。<br>这个执行环境会被添加到一个栈中，这个栈就是执行栈。</p>
+<h2 id="4-Vue的异步更新队列"><a href="#4-Vue的异步更新队列" class="headerlink" title="4. Vue的异步更新队列"></a>4. Vue的异步更新队列</h2><p>Vue中DOM的更新是异步的，是在微任务中更新DOM。</p>
+<blockquote><p>Vue 在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。Vue 在内部对异步队列尝试使用原生的<code>Promise.then</code>等。  </p>
+<footer><strong>https://v2.cn.vuejs.org/</strong></footer></blockquote>
+
+<p>例如，当你设置 vm.someData &#x3D; ‘new value’，该组件不会立即重新渲染。当刷新队列时，组件会在下一个事件循环“tick”中更新。多数情况我们不需要关心这个过程，但是如果你想基于更新后的 DOM 状态来做点什么，这就可能会有些棘手。虽然 Vue.js 通常鼓励开发人员使用“数据驱动”的方式思考，避免直接接触 DOM，但是有时我们必须要这么做。为了在数据变化之后等待 Vue 完成更新 DOM，可以在数据变化之后立即使用<code>Vue.nextTick(callback)</code>。这样回调函数将在 DOM 更新完成后被调用。  </p>
+<p>也就是说，当我们想要改变vue中的某个数据的值时，vue不会立即重新渲染，数据不会立即发生改变，而是会在下一次事件循环的时候更新。这主要是因为<em>Vue中DOM的操作是异步的</em></p>
+<p><code>nextTick()</code>的应用场景主要是：</p>
+<ol>
+<li>在Vue生命周期的<code>created()</code>钩子函数进行的DOM操作一定要放在<code>Vue.nextTick()</code>的回调函数中</li>
+<li>在数据变化后要执行的某个操作，而这个操作需要使用随数据改变而改变的DOM结构的时候，这个操作都应该放进<code>Vue.nextTick()</code>的回调函数中。</li>
+</ol>
+<h1 id="5-举例"><a href="#5-举例" class="headerlink" title="5. 举例"></a>5. 举例</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/e3ecf9294d3301ffe544eced8e1da767.png" alt="在这里插入图片描述"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;hello&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; msg &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;item in list&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;item.id&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;list&quot;</span>&gt;</span>&#123;&#123; item.id &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;addItem&quot;</span>&gt;</span>添加<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">var</span> list = [&#123; <span class="attr">id</span>: <span class="number">1</span> &#125;, &#123; <span class="attr">id</span>: <span class="number">2</span> &#125;, &#123; <span class="attr">id</span>: <span class="number">3</span> &#125;, &#123; <span class="attr">id</span>: <span class="number">4</span> &#125;];</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">name</span>: <span class="string">&quot;HelloWorld&quot;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">props</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">msg</span>: <span class="title class_">String</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">return</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      list,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="title function_">addItem</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="keyword">let</span> length = <span class="variable language_">this</span>.<span class="property">list</span>.<span class="property">length</span>+<span class="number">1</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">this</span>.<span class="property">list</span>.<span class="title function_">push</span>(&#123; <span class="attr">id</span>: length &#125;);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">list</span>);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">this</span>.$nextTick(<span class="function">()=&gt;</span>&#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">list</span>,<span class="string">&#x27;in nextTick&#x27;</span>)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      &#125;)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>每次点击添加按钮会在列表中添加一条字段，从控制台中可以看到方法中打印的list和在nextTick中打印的list并不一样，这是因为<strong>vue中的DOM是异步更新的</strong>，为了最小化性能开销，所以一次事件中的所有数据变更，并不会同步的去更新 DOM，而是等待事件结束后，进行数据比对，计算出差异，然后一次性的变动 DOM。因此，两次 console.log 的结果不同。<br>事件中的 console.log 是同步执行的，在 list 数据中插入数据后，就进行了打印，但此时的事件并未结束，DOM 也尚未发生变动，因此打印结果依旧是原有的 li 数量。而 $nextTick 中的代码则是异步的、延迟调用的，待 DOM 变更结束后，去调用这一部分代码。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://melon1996.github.io/2022/11/10/js/nextTick/" data-id="clab66or70001r4vq430tai6g" data-title="事件循环" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-algorithm/tree/tree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/06/algorithm/tree/tree/" class="article-date">
+  <time class="dt-published" datetime="2022-11-06T08:17:59.000Z" itemprop="datePublished">2022-11-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/06/algorithm/tree/tree/">二叉树的遍历</a>
     </h1>
   
 
@@ -132,13 +256,23 @@
 <p>输入：root1 &#x3D; [1,3,2,5], root2 &#x3D; [2,1,3,null,4,null,7]<br>输出：[3,4,5,5,4,null,7]</p>
 <p><strong>题解</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mergeTrees = <span class="keyword">function</span>(<span class="params">root1, root2</span>) &#123;</span><br><span class="line">    <span class="comment">//其中一棵树此结点不存在:返回另一棵树的结点</span></span><br><span class="line">    <span class="keyword">if</span>(root1 === <span class="literal">null</span>) <span class="keyword">return</span> root2;</span><br><span class="line">    <span class="keyword">if</span>(root2 === <span class="literal">null</span>) <span class="keyword">return</span> root1;</span><br><span class="line">    <span class="comment">//两棵树此结点都存在:生成一个结点，val为两棵树此结点val的和</span></span><br><span class="line">    <span class="comment">//对于根结点，如果上面两个if语句都没有进入，说明都存在根节点，值为两个根节点和</span></span><br><span class="line">    <span class="keyword">let</span> newTree = <span class="keyword">new</span> <span class="title class_">TreeNode</span>(root1.<span class="property">val</span> + root2.<span class="property">val</span>);</span><br><span class="line">    <span class="comment">//深度优先搜索，即朝一个方向搜索</span></span><br><span class="line">    newTree.<span class="property">left</span> = <span class="title function_">mergeTrees</span>(root1.<span class="property">left</span>, root2.<span class="property">left</span>);</span><br><span class="line">    newTree.<span class="property">right</span> = <span class="title function_">mergeTrees</span>(root1.<span class="property">right</span>, root2.<span class="property">right</span>);</span><br><span class="line">    <span class="keyword">return</span> newTree;<span class="comment">//返回合并树</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-二叉树的直径"><a href="#5-二叉树的直径" class="headerlink" title="5. 二叉树的直径"></a>5. 二叉树的直径</h2><p><strong>描述</strong></p>
+<p>给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。</p>
+<p><strong>样例</strong></p>
+<p><img src="/images/tree/5.png" alt="5"></p>
+<p>返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。</p>
+<p><strong>题解</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> diameterOfBinaryTree = <span class="keyword">function</span>(<span class="params">root</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> height = <span class="number">0</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">helper</span>(<span class="params">node</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span>(!node) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">      <span class="keyword">let</span> left = <span class="title function_">helper</span>(node.<span class="property">left</span>),</span><br><span class="line">      right = <span class="title function_">helper</span>(node.<span class="property">right</span>)</span><br><span class="line">      height = <span class="title class_">Math</span>.<span class="title function_">max</span>(left + right, height) <span class="comment">//左子树深度 + 右子树深度</span></span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">Math</span>.<span class="title function_">max</span>(left,right) + <span class="number">1</span> <span class="comment">//以该节点为根节点的最大深度</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">helper</span>(root)</span><br><span class="line">    <span class="keyword">return</span> height</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://melon1996.github.io/2022/11/06/algorithm/tree/tranverse/" data-id="cla6u7lj900054wvqdh7a9yzo" data-title="二叉树的遍历" class="article-share-link">Share</a>
+      <a data-url="http://melon1996.github.io/2022/11/06/algorithm/tree/tree/" data-id="clab66orj0009r4vq7z2o37x7" data-title="二叉树的遍历" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
     </footer>
   </div>
   
@@ -153,10 +287,6 @@
   <time class="dt-published" datetime="2022-07-18T13:55:44.000Z" itemprop="datePublished">2022-07-18</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -194,10 +324,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://melon1996.github.io/2022/07/18/algorithm/linkedList/reverse/" data-id="cla6u7lj800044wvq1cio32vl" data-title="反转链表" class="article-share-link">Share</a>
+      <a data-url="http://melon1996.github.io/2022/07/18/algorithm/linkedList/reverse/" data-id="clab66ori0008r4vq8xipf7ar" data-title="反转链表" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
     </footer>
   </div>
   
@@ -212,10 +344,6 @@
   <time class="dt-published" datetime="2022-07-10T13:22:05.000Z" itemprop="datePublished">2022-07-10</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/vue/">vue</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -332,10 +460,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://melon1996.github.io/2022/07/10/vue/router/" data-id="cla6u7lit00004wvqdfmifykn" data-title="前端路由" class="article-share-link">Share</a>
+      <a data-url="http://melon1996.github.io/2022/07/10/vue/router/" data-id="clab66ore0005r4vq6i1z9p6j" data-title="前端路由" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
     </footer>
   </div>
   
@@ -350,10 +480,6 @@
   <time class="dt-published" datetime="2022-01-28T07:10:45.000Z" itemprop="datePublished">2022-01-28</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ES6/">ES6</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -399,10 +525,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://melon1996.github.io/2022/01/28/es6/tail-call/" data-id="cla6u7lj700034wvqckvybsof" data-title="函数尾调用" class="article-share-link">Share</a>
+      <a data-url="http://melon1996.github.io/2022/01/28/es6/tail-call/" data-id="clab66ord0004r4vq7wwp1r8g" data-title="函数尾调用" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/" rel="tag">ES6</a></li></ul>
+
     </footer>
   </div>
   
@@ -417,10 +545,6 @@
   <time class="dt-published" datetime="2022-01-27T08:19:36.000Z" itemprop="datePublished">2022-01-27</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ES6/">ES6</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -457,10 +581,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://melon1996.github.io/2022/01/27/es6/arrow-function/" data-id="cla6u7lj200014wvq80qggvdg" data-title="箭头函数" class="article-share-link">Share</a>
+      <a data-url="http://melon1996.github.io/2022/01/27/es6/arrow-function/" data-id="clab66orc0003r4vqgwtdcvg3" data-title="箭头函数" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/" rel="tag">ES6</a></li></ul>
+
     </footer>
   </div>
   
@@ -476,19 +602,26 @@
           <aside id="sidebar">
   
     
+
+  
+    
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ES6/">ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue/">vue</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
     </div>
   </div>
 
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ES6/" style="font-size: 20px;">ES6</a> <a href="/tags/algorithm/" style="font-size: 20px;">algorithm</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a>
+    </div>
+  </div>
 
-  
-    
   
     
   <div class="widget-wrap">
@@ -507,7 +640,15 @@
       <ul>
         
           <li>
-            <a href="/2022/11/06/algorithm/tree/tranverse/">二叉树的遍历</a>
+            <a href="/2022/11/10/js/chrome/">在地址栏输入url到页面展示这中间发生了什么</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/10/js/nextTick/">事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/algorithm/tree/tree/">二叉树的遍历</a>
           </li>
         
           <li>
@@ -516,14 +657,6 @@
         
           <li>
             <a href="/2022/07/10/vue/router/">前端路由</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/28/es6/tail-call/">函数尾调用</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/27/es6/arrow-function/">箭头函数</a>
           </li>
         
       </ul>

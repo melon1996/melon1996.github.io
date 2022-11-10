@@ -9,7 +9,7 @@
   <meta name="description" content="二叉树 前序遍历-根左右：A-B-D-F-G-H-I-E-C中序遍历-左根右：F-D-H-G-I-B-E-A-C后序遍历-左右根：F-H-I-G-D-E-B-C-A 1. 实现二叉树的中序遍历题解  递归方法定义 inorder(root) 表示当前遍历到 root 节点的答案，那么按照定义，我们只要递归调用 inorder(root.left) 来遍历 root 节点的左子树，然后将 root">
 <meta property="og:type" content="article">
 <meta property="og:title" content="二叉树的遍历">
-<meta property="og:url" content="http://melon1996.github.io/2022/11/06/algorithm/tree/tranverse/index.html">
+<meta property="og:url" content="http://melon1996.github.io/2022/11/06/algorithm/tree/tree/index.html">
 <meta property="og:site_name" content="从心的blog">
 <meta property="og:description" content="二叉树 前序遍历-根左右：A-B-D-F-G-H-I-E-C中序遍历-左根右：F-D-H-G-I-B-E-A-C后序遍历-左右根：F-H-I-G-D-E-B-C-A 1. 实现二叉树的中序遍历题解  递归方法定义 inorder(root) 表示当前遍历到 root 节点的答案，那么按照定义，我们只要递归调用 inorder(root.left) 来遍历 root 节点的左子树，然后将 root">
 <meta property="og:locale" content="en_US">
@@ -17,9 +17,11 @@
 <meta property="og:image" content="http://melon1996.github.io/images/tree/2.png">
 <meta property="og:image" content="http://melon1996.github.io/images/tree/3.png">
 <meta property="og:image" content="http://melon1996.github.io/images/tree/4.png">
+<meta property="og:image" content="http://melon1996.github.io/images/tree/5.png">
 <meta property="article:published_time" content="2022-11-06T08:17:59.000Z">
-<meta property="article:modified_time" content="2022-11-07T13:43:13.494Z">
+<meta property="article:modified_time" content="2022-11-10T14:02:09.303Z">
 <meta property="article:author" content="xin chen">
+<meta property="article:tag" content="algorithm">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://melon1996.github.io/images/tree/1.png">
   
@@ -78,16 +80,12 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-algorithm/tree/tranverse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-algorithm/tree/tree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/11/06/algorithm/tree/tranverse/" class="article-date">
+    <a href="/2022/11/06/algorithm/tree/tree/" class="article-date">
   <time class="dt-published" datetime="2022-11-06T08:17:59.000Z" itemprop="datePublished">2022-11-06</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -139,18 +137,37 @@
 <p>输入：root1 &#x3D; [1,3,2,5], root2 &#x3D; [2,1,3,null,4,null,7]<br>输出：[3,4,5,5,4,null,7]</p>
 <p><strong>题解</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mergeTrees = <span class="keyword">function</span>(<span class="params">root1, root2</span>) &#123;</span><br><span class="line">    <span class="comment">//其中一棵树此结点不存在:返回另一棵树的结点</span></span><br><span class="line">    <span class="keyword">if</span>(root1 === <span class="literal">null</span>) <span class="keyword">return</span> root2;</span><br><span class="line">    <span class="keyword">if</span>(root2 === <span class="literal">null</span>) <span class="keyword">return</span> root1;</span><br><span class="line">    <span class="comment">//两棵树此结点都存在:生成一个结点，val为两棵树此结点val的和</span></span><br><span class="line">    <span class="comment">//对于根结点，如果上面两个if语句都没有进入，说明都存在根节点，值为两个根节点和</span></span><br><span class="line">    <span class="keyword">let</span> newTree = <span class="keyword">new</span> <span class="title class_">TreeNode</span>(root1.<span class="property">val</span> + root2.<span class="property">val</span>);</span><br><span class="line">    <span class="comment">//深度优先搜索，即朝一个方向搜索</span></span><br><span class="line">    newTree.<span class="property">left</span> = <span class="title function_">mergeTrees</span>(root1.<span class="property">left</span>, root2.<span class="property">left</span>);</span><br><span class="line">    newTree.<span class="property">right</span> = <span class="title function_">mergeTrees</span>(root1.<span class="property">right</span>, root2.<span class="property">right</span>);</span><br><span class="line">    <span class="keyword">return</span> newTree;<span class="comment">//返回合并树</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-二叉树的直径"><a href="#5-二叉树的直径" class="headerlink" title="5. 二叉树的直径"></a>5. 二叉树的直径</h2><p><strong>描述</strong></p>
+<p>给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。</p>
+<p><strong>样例</strong></p>
+<p><img src="/images/tree/5.png" alt="5"></p>
+<p>返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。</p>
+<p><strong>题解</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> diameterOfBinaryTree = <span class="keyword">function</span>(<span class="params">root</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> height = <span class="number">0</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">helper</span>(<span class="params">node</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span>(!node) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">      <span class="keyword">let</span> left = <span class="title function_">helper</span>(node.<span class="property">left</span>),</span><br><span class="line">      right = <span class="title function_">helper</span>(node.<span class="property">right</span>)</span><br><span class="line">      height = <span class="title class_">Math</span>.<span class="title function_">max</span>(left + right, height) <span class="comment">//左子树深度 + 右子树深度</span></span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">Math</span>.<span class="title function_">max</span>(left,right) + <span class="number">1</span> <span class="comment">//以该节点为根节点的最大深度</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">helper</span>(root)</span><br><span class="line">    <span class="keyword">return</span> height</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://melon1996.github.io/2022/11/06/algorithm/tree/tranverse/" data-id="cla6u7lj900054wvqdh7a9yzo" data-title="二叉树的遍历" class="article-share-link">Share</a>
+      <a data-url="http://melon1996.github.io/2022/11/06/algorithm/tree/tree/" data-id="clab66orj0009r4vq7z2o37x7" data-title="二叉树的遍历" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
+  
+    <a href="/2022/11/10/js/nextTick/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          事件循环
+        
+      </div>
+    </a>
   
   
     <a href="/2022/07/18/algorithm/linkedList/reverse/" id="article-nav-older" class="article-nav-link-wrap">
@@ -169,19 +186,26 @@
           <aside id="sidebar">
   
     
+
+  
+    
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ES6/">ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue/">vue</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
     </div>
   </div>
 
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ES6/" style="font-size: 20px;">ES6</a> <a href="/tags/algorithm/" style="font-size: 20px;">algorithm</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a>
+    </div>
+  </div>
 
-  
-    
   
     
   <div class="widget-wrap">
@@ -200,7 +224,15 @@
       <ul>
         
           <li>
-            <a href="/2022/11/06/algorithm/tree/tranverse/">二叉树的遍历</a>
+            <a href="/2022/11/10/js/chrome/">在地址栏输入url到页面展示这中间发生了什么</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/10/js/nextTick/">事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/algorithm/tree/tree/">二叉树的遍历</a>
           </li>
         
           <li>
@@ -209,14 +241,6 @@
         
           <li>
             <a href="/2022/07/10/vue/router/">前端路由</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/28/es6/tail-call/">函数尾调用</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/27/es6/arrow-function/">箭头函数</a>
           </li>
         
       </ul>
