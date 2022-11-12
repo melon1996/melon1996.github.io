@@ -81,7 +81,13 @@
     <h1 itemprop="name">在地址栏输入url到页面展示这中间发生了什么</h1>
     
      
-           <p itemprop="description" >1. 进程和线程进程（Process）：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。线程（thread）：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程</p>
+           <p itemprop="description" >这是个经典的面试题，该问题涉及到浏览器的整个进程架构，首先我们先回答这个问题，然后再仔细梳理整个流程是怎么发生的：
+
+
+首先，用户先从浏览器进程里输入请求信息
+然后，网络进程发起URL请求
+服务器响应URL请求，浏览器进程就要开始渲染进程了
+渲染进程准备好之后，需要向渲染进程提交</p>
         
     
     <time datetime="2022-11-10T13:30:33.000Z" itemprop="datePublished">2022-11-10</time>
@@ -249,11 +255,15 @@ SPASPA（Single Page Web Application）是单页面应用的简称，指的是�
 			
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>2</sup></a></li>
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
 			
 		
 			

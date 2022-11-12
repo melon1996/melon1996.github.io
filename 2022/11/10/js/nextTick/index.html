@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy82MTAwNTAyLTc4MzEzODliZWMzN2ZlNTIucG5n?x-oss-process=image/format,png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/e3ecf9294d3301ffe544eced8e1da767.png">
 <meta property="article:published_time" content="2022-11-10T12:55:23.000Z">
-<meta property="article:modified_time" content="2022-11-10T14:32:03.540Z">
+<meta property="article:modified_time" content="2022-11-12T08:54:05.967Z">
 <meta property="article:author" content="xin chen">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
@@ -120,12 +120,13 @@
 <li>执行一个宏任务（栈中没有就从事件队列中获取）</li>
 <li>执行过程中如果遇到微任务，就将它添加到微任务的任务队列中</li>
 <li>宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）</li>
-<li>当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染<br>渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）</li>
+<li>当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染</li>
+<li>渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）</li>
 </ul>
 <h2 id="3-执行栈"><a href="#3-执行栈" class="headerlink" title="3.执行栈"></a>3.执行栈</h2><p>当我们执行一个方法时，JS会生成一个与这个方法对象的执行环境，又叫做执行上下文。<br>这个执行上下文中有这个方法的私有作用域、上次作用域的指向、方法的参数、私有作用域中定义的变量以及this对象。<br>这个执行环境会被添加到一个栈中，这个栈就是执行栈。</p>
 <h2 id="4-Vue的异步更新队列"><a href="#4-Vue的异步更新队列" class="headerlink" title="4. Vue的异步更新队列"></a>4. Vue的异步更新队列</h2><p>Vue中DOM的更新是异步的，是在微任务中更新DOM。</p>
 <blockquote><p>Vue 在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。Vue 在内部对异步队列尝试使用原生的<code>Promise.then</code>等。  </p>
-<footer><strong>https://v2.cn.vuejs.org/</strong></footer></blockquote>
+<footer><strong>VUE官网</strong><cite><a target="_blank" rel="noopener" href="https://v2.cn.vuejs.org/">v2.cn.vuejs.org</a></cite></footer></blockquote>
 
 <p>例如，当你设置 vm.someData &#x3D; ‘new value’，该组件不会立即重新渲染。当刷新队列时，组件会在下一个事件循环“tick”中更新。多数情况我们不需要关心这个过程，但是如果你想基于更新后的 DOM 状态来做点什么，这就可能会有些棘手。虽然 Vue.js 通常鼓励开发人员使用“数据驱动”的方式思考，避免直接接触 DOM，但是有时我们必须要这么做。为了在数据变化之后等待 Vue 完成更新 DOM，可以在数据变化之后立即使用<code>Vue.nextTick(callback)</code>。这样回调函数将在 DOM 更新完成后被调用。  </p>
 <p>也就是说，当我们想要改变vue中的某个数据的值时，vue不会立即重新渲染，数据不会立即发生改变，而是会在下一次事件循环的时候更新。这主要是因为<em>Vue中DOM的操作是异步的</em></p>
@@ -219,11 +220,15 @@
 			
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>2</sup></a></li>
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+				<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
 			
 		
 			
