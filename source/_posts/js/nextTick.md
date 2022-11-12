@@ -40,7 +40,7 @@ microtask主要包含：Promise、MutaionObserver、process.nextTick(Node.js 环
  - 执行过程中如果遇到微任务，就将它添加到微任务的任务队列中
  - 宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）
  - 当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染
-渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）
+ - 渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）
 
 
 ## 3.执行栈
@@ -54,7 +54,7 @@ microtask主要包含：Promise、MutaionObserver、process.nextTick(Node.js 环
 Vue中DOM的更新是异步的，是在微任务中更新DOM。
 
 
-{% blockquote https://v2.cn.vuejs.org/ %}
+{% blockquote VUE官网 https://v2.cn.vuejs.org/ %}
 
 Vue 在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。Vue 在内部对异步队列尝试使用原生的`Promise.then`等。  
 
