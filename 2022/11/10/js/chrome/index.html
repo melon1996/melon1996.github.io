@@ -1,102 +1,108 @@
-<!DOCTYPE html>
-<html>
+
+ <!DOCTYPE HTML>
+<html lang="zh">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   
-  
-  <title>在地址栏输入url到页面展示这中间发生了什么 | 从心的blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1. 进程和线程进程（Process）：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。线程（thread）：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。 一个进程至少有一个执行的主线程，也可以开启新的执行线程；进程之间的是通过TCP&#x2F;IP的端口">
+    <title>在地址栏输入url到页面展示这中间发生了什么 | 从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="1. 进程和线程进程（Process）：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。线程（thread）：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。 一个进程至少有一个执行的主线程，也可以开启新的执行线程；进程之间的是通过TCP&#x2F;IP的端口">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在地址栏输入url到页面展示这中间发生了什么">
 <meta property="og:url" content="http://melon1996.github.io/2022/11/10/js/chrome/index.html">
-<meta property="og:site_name" content="从心的blog">
+<meta property="og:site_name" content="从心de博客">
 <meta property="og:description" content="1. 进程和线程进程（Process）：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。线程（thread）：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。 一个进程至少有一个执行的主线程，也可以开启新的执行线程；进程之间的是通过TCP&#x2F;IP的端口">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale">
 <meta property="article:published_time" content="2022-11-10T13:30:33.000Z">
 <meta property="article:modified_time" content="2022-11-10T14:02:09.303Z">
 <meta property="article:author" content="xin chen">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="从心的blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
-  
-  
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
 <link rel="stylesheet" href="/css/style.css">
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
 <meta name="generator" content="Hexo 6.2.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">从心的blog</a>
-      </h1>
+  <body>
+    <header>
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://melon1996.github.io"></form>
-      </div>
-    </div>
-  </div>
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2022/11/10/js/chrome/" title="在地址栏输入url到页面展示这中间发生了什么" itemprop="url">在地址栏输入url到页面展示这中间发生了什么</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2022-11-10T13:30:33.000Z" itemprop="datePublished"> Published 2022-11-10</time>
+    
+  </p>
 </header>
-
-      <div class="outer">
-        <section id="main"><article id="post-js/chrome" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/10/js/chrome/" class="article-date">
-  <time class="dt-published" datetime="2022-11-10T13:30:33.000Z" itemprop="datePublished">2022-11-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      在地址栏输入url到页面展示这中间发生了什么
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-进程和线程"><a href="#1-进程和线程" class="headerlink" title="1. 进程和线程"></a>1. 进程和线程</h1><p><strong>进程（Process）</strong>：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。<br><strong>线程（thread）</strong>：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。</p>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">1. 进程和线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">2. Chrome浏览器进程</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="1-进程和线程"><a href="#1-进程和线程" class="headerlink" title="1. 进程和线程"></a>1. 进程和线程</h1><p><strong>进程（Process）</strong>：指在系统中正在运行的一个应用程序；程序一旦运行就是进程；进程是系统进行资源分配和调度的基本单位，是操作系统结构的基础。<br><strong>线程（thread）</strong>：操作系统能够进行运算调度的最小单位，它被包含在进程之中；是进程之内独立执行的一个单元执行流。线程是程序执行的最小单位。</p>
 <p>一个进程至少有一个执行的主线程，也可以开启新的执行线程；<br>进程之间的是通过TCP&#x2F;IP的端口来实现交互的；<br>线程的通信就比较简单，有一大块共享的内存，只要大家的指针是同一个就可以看到各自的内存。</p>
 <p><strong>总结</strong> </p>
 <ol>
@@ -112,142 +118,341 @@
 <li>GPU：绘制Chrome的UI界面；</li>
 <li>网络进程：负责页面网络资源加载。</li>
 </ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://melon1996.github.io/2022/11/10/js/chrome/" data-id="clab66or10000r4vq3nl48eg2" data-title="在地址栏输入url到页面展示这中间发生了什么" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
-
-    </footer>
-  </div>
   
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2022/11/10/js/nextTick/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">事件循环</div>
-    </a>
-  
-</nav>
-
-  
-</article>
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
 
-</section>
-        
-          <aside id="sidebar">
+  <div class="article-tags">
   
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/" rel="tag">ES6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-    </div>
+  <span></span> <a href="/tags/js/">js</a>
   </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/ES6/" style="font-size: 20px;">ES6</a> <a href="/tags/algorithm/" style="font-size: 20px;">algorithm</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
-    </div>
-  </div>
+</div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/11/10/js/chrome/">在地址栏输入url到页面展示这中间发生了什么</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/10/js/nextTick/">事件循环</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/06/algorithm/tree/tree/">二叉树的遍历</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/18/algorithm/linkedList/reverse/">反转链表</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/10/vue/router/">前端路由</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 xin chen<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2022/11/10/js/chrome/" data-title="在地址栏输入url到页面展示这中间发生了什么 | 从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
 </footer>
 
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2022/11/10/js/nextTick/"  title="事件循环">
+ <strong>下一篇：</strong><br/> 
+ <span>事件循环
+</span>
+</a>
+</div>
+
 </nav>
-    
+
+	
 
 
-<script src="/js/jquery-3.4.1.min.js"></script>
 
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">1. 进程和线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">2. Chrome浏览器进程</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
 
 
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
   </div>
-</body>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
 </html>
