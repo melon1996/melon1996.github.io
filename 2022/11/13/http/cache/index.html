@@ -1,0 +1,530 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>浏览器缓存 | 从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="内容参考:浏览器缓存彻底理解浏览器的缓存机制    浏览器缓存是浏览器将用户请求过的静态资源存储到电脑本地磁盘中，当浏览器再次访问时，就可以直接从本地加载了，不需要再去请求服务器。 优点：  减少了冗余的数据传输 减少服务器负担，提升网站性能 加快客户端加载网页的速度  缓存流程浏览器第一次请求资源时  图中的缓存规则就是所请求的这个资源要采取哪种缓存策略？要缓存多长时间等等，而这个规则是在响应头">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器缓存">
+<meta property="og:url" content="http://melon1996.github.io/2022/11/13/http/cache/index.html">
+<meta property="og:site_name" content="从心de博客">
+<meta property="og:description" content="内容参考:浏览器缓存彻底理解浏览器的缓存机制    浏览器缓存是浏览器将用户请求过的静态资源存储到电脑本地磁盘中，当浏览器再次访问时，就可以直接从本地加载了，不需要再去请求服务器。 优点：  减少了冗余的数据传输 减少服务器负担，提升网站性能 加快客户端加载网页的速度  缓存流程浏览器第一次请求资源时  图中的缓存规则就是所请求的这个资源要采取哪种缓存策略？要缓存多长时间等等，而这个规则是在响应头">
+<meta property="og:locale">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b354e0a8cb2450aba81bc12e03d774e~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2fef124c55304637bbf89591ea947131~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/07f8dcf612474aa3b35ebea794f06fbe~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c27d01f81b746db9594013415232287~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/58e4541b60f44ff7ac7e9cf6c1242ba0~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77ece84bcd294d22bdc966362248663e~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/402c62c9bc2d46d485c43abe6205a23f~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/27976c4bcca3415abaca5c85a862afe4~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2a9096f25e1846dbac0d7203825ff9ff~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a05986cd9044b878a4148252c46bcd0~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/244a7d5cf07f421ba9d4e3dbb4a27bf4~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+<meta property="article:published_time" content="2022-11-13T07:40:18.000Z">
+<meta property="article:modified_time" content="2022-11-13T09:19:31.041Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b354e0a8cb2450aba81bc12e03d774e~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2022/11/13/http/cache/" title="浏览器缓存" itemprop="url">浏览器缓存</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2022-11-13T07:40:18.000Z" itemprop="datePublished"> Published 2022-11-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">缓存流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E8%A7%84%E5%88%99"><span class="toc-number">2.</span> <span class="toc-text">缓存规则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E7%BC%93%E5%AD%98"><span class="toc-number">2.1.</span> <span class="toc-text">强缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98"><span class="toc-number">2.2.</span> <span class="toc-text">协商缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%91%BD%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="toc-number">2.3.</span> <span class="toc-text">缓存命中显示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98%EF%BC%88memory-cache%EF%BC%89%E5%92%8C%E7%A1%AC%E7%9B%98%E7%BC%93%E5%AD%98%EF%BC%88disk-cache%EF%BC%89"><span class="toc-number">2.3.1.</span> <span class="toc-text">内存缓存（memory cache）和硬盘缓存（disk cache）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.4.</span> <span class="toc-text">强缓存和协商缓存的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<blockquote><p>内容参考:<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903763665240072">浏览器缓存</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903593275817998">彻底理解浏览器的缓存机制</a> </p>
+</blockquote>
+
+<p><strong>浏览器缓存</strong>是浏览器将用户请求过的静态资源存储到电脑本地磁盘中，当浏览器再次访问时，就可以直接从本地加载了，不需要再去请求服务器。</p>
+<p>优点：</p>
+<ul>
+<li>减少了冗余的数据传输</li>
+<li>减少服务器负担，提升网站性能</li>
+<li>加快客户端加载网页的速度</li>
+</ul>
+<h1 id="缓存流程"><a href="#缓存流程" class="headerlink" title="缓存流程"></a>缓存流程</h1><p>浏览器第一次请求资源时</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b354e0a8cb2450aba81bc12e03d774e~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="浏览器第一次请求资源"></p>
+<p>图中的缓存规则就是所请求的这个资源要采取哪种缓存策略？要缓存多长时间等等，而这个规则是在<strong>响应头部（response headers）</strong>返回回来的。</p>
+<ul>
+<li>注意：请求头部也会携带规则信息，具体区别下面会讲。</li>
+</ul>
+<h1 id="缓存规则"><a href="#缓存规则" class="headerlink" title="缓存规则"></a>缓存规则</h1><p>强缓存和协商缓存</p>
+<h2 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h2><p>强缓存意味着，如果资源没过期就取缓存，过期了就请求服务器。</p>
+<p>那么如何判断缓存是否过期呢？也就是强缓存的规则怎么看？<br>主要是看响应头中的Cache-Control的值还有一个Expires（现在基本不用了）</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2fef124c55304637bbf89591ea947131~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="cache-control"></p>
+<p>比如上图中Cache-Control设置了max-age&#x3D;31XXXXXX，就是说在这些秒内都直接使用缓存，超过时间就请求服务器。</p>
+<p>Cache-Control几个取值的含义：</p>
+<ol>
+<li>private：仅浏览器可以缓存</li>
+<li>public：浏览器和代理服务器都可以缓存（对于private和public，前端可以认为一样）</li>
+<li><strong>max-age&#x3D;XX</strong>：过期时间</li>
+<li><strong>no-cache</strong>：不进行强缓存</li>
+<li>no-store：不强缓存，与不协商缓存<br>注意：规则可以同时设置多条，比如：Cache-Control:public,max-age&#x3D;0</li>
+</ol>
+<p>所以，判断该资源是否命中强缓存，就看 response 中 Cache-Control 的值，如果有max-age&#x3D;xxx秒，则命中强缓存。如果Cache-Control的值是no-cache，说明没命中强缓存，走协商缓存。</p>
+<p><strong>强缓存流程</strong></p>
+<ol>
+<li>第一次请求 a.js ，缓存表中没该信息，直接请求后端服务器。</li>
+<li>后端服务器返回了 a.js ，且 http response header 中 cache-control 为 max-age&#x3D;xxxx，所以是强缓存规则，存入缓存表中。</li>
+<li>第二次请求 a.js ，缓存表中是 max-age， 那么命中强缓存，然后判断是否过期，如果没过期，直接读缓存的a.js，如果过期了，则执行协商缓存的步骤了。</li>
+</ol>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/07f8dcf612474aa3b35ebea794f06fbe~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="第一次请求后，再次请求命中强缓存"></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c27d01f81b746db9594013415232287~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="强缓存失效"></p>
+<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><p>触发条件：</p>
+<ol>
+<li>Cache-Control 的值为 no-cache （不强缓存）</li>
+<li>max-age 过期了</li>
+</ol>
+<p>协商缓存规则需要有两个标识，也在响应头部中返回：Etag和Last-Modified<br>Etag：每个文件有一个，文件改动了就会变化<br>Last-Modified：文件的修改时间</p>
+<p>每次http返回回来的响应头部中的Etag和Last-Modified，在下次请求时需要在请求头部中带上，但是对应的名字变了：Etag -&gt; If-None-Match ，Last-Modified -&gt; If-Modified-Since ，服务器把请求中带过来的标识和目前的标识进行对比，然后判断资源是否更新了。</p>
+<p>协商缓存流程如下：</p>
+<ol>
+<li>请求资源时，把用户本地该资源的 ETag 同时带到服务端，服务端和最新资源做对比。</li>
+<li>如果资源没更改，返回304，浏览器读取本地缓存。</li>
+<li>如果资源有更改，返回200，返回最新的资源。</li>
+</ol>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/58e4541b60f44ff7ac7e9cf6c1242ba0~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="协商缓存未更新"></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77ece84bcd294d22bdc966362248663e~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="协商缓存更新"></p>
+<h2 id="缓存命中显示"><a href="#缓存命中显示" class="headerlink" title="缓存命中显示"></a>缓存命中显示</h2><ol>
+<li><p>从服务器获取新的资源<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/402c62c9bc2d46d485c43abe6205a23f~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image"></p>
+</li>
+<li><p>命中强缓存，且资源没过期，直接读取本地缓存<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/27976c4bcca3415abaca5c85a862afe4~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image"></p>
+</li>
+<li><p>命中协商缓存，且资源未更改，读取本地缓存<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2a9096f25e1846dbac0d7203825ff9ff~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image"></p>
+</li>
+</ol>
+<p>注意：协商缓存无论资源是否更改，都要向服务端发请求的，只不过，资源未更改时，返回的只是header信息，所以size很小；而资源有更改时，还要返回body数据，所以size会大。</p>
+<h3 id="内存缓存（memory-cache）和硬盘缓存（disk-cache）"><a href="#内存缓存（memory-cache）和硬盘缓存（disk-cache）" class="headerlink" title="内存缓存（memory cache）和硬盘缓存（disk cache）"></a>内存缓存（memory cache）和硬盘缓存（disk cache）</h3><p>浏览器的缓存是存放在内存或者硬盘中的，读取顺序为memory-&gt;disk</p>
+<p>两者特点：</p>
+<ul>
+<li>内存缓存：存进浏览器的内存中，具有快速读取和时效性（即一旦进程关闭，该进程的内存就会清空）；</li>
+<li>硬盘缓存：写入硬盘文件中，读取缓存需要对该缓存存放的硬盘进行I&#x2F;O操作，速度比内存缓存慢</li>
+</ul>
+<p>因此，当关闭标签页再重新打开页面，缓存的页面资源会从硬盘中读取，而进行刷新操作时，js和图片资源等文件会直接从内存中读取，而css文件则会存入硬盘中</p>
+<h2 id="强缓存和协商缓存的区别"><a href="#强缓存和协商缓存的区别" class="headerlink" title="强缓存和协商缓存的区别"></a>强缓存和协商缓存的区别</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a05986cd9044b878a4148252c46bcd0~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>强制缓存优先于协商缓存进行，若强制缓存(Expires和Cache-Control)生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified &#x2F; If-Modified-Since和Etag &#x2F; If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，重新获取请求结果，再存入浏览器缓存中；生效则返回304，继续使用缓存，主要过程如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/244a7d5cf07f421ba9d4e3dbb4a27bf4~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/http/">http</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2022/11/13/http/cache/" data-title="浏览器缓存 | 从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2022/11/10/js/chrome/"  title="在地址栏输入url到页面展示这中间发生了什么">
+ <strong>下一篇：</strong><br/> 
+ <span>在地址栏输入url到页面展示这中间发生了什么
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">缓存流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E8%A7%84%E5%88%99"><span class="toc-number">2.</span> <span class="toc-text">缓存规则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E7%BC%93%E5%AD%98"><span class="toc-number">2.1.</span> <span class="toc-text">强缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98"><span class="toc-number">2.2.</span> <span class="toc-text">协商缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%91%BD%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="toc-number">2.3.</span> <span class="toc-text">缓存命中显示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98%EF%BC%88memory-cache%EF%BC%89%E5%92%8C%E7%A1%AC%E7%9B%98%E7%BC%93%E5%AD%98%EF%BC%88disk-cache%EF%BC%89"><span class="toc-number">2.3.1.</span> <span class="toc-text">内存缓存（memory cache）和硬盘缓存（disk cache）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.4.</span> <span class="toc-text">强缓存和协商缓存的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

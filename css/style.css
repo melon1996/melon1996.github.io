@@ -737,7 +737,7 @@ header nav ul li a:hover {
   -ms-transition: border-left 0.5s;
   transition: border-left 0.5s;
 }
-#page-nav .prev span:before {
+#page-nav .prev span::before {
   font-family: "FontAwesome";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
