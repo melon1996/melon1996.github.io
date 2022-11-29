@@ -1,0 +1,483 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>call,apply,bind | 从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="对this对象的理解this 是执行上下文中的一个属性，它指向最后一次调用这个方法的对象。在实际开发中，this 的指向可以通过四种调用模式来判断。  函数调用模式，当一个函数不是一个对象的属性时，直接作为函数来调用时，this 指向全局对象 方法调用模式，如果一个函数作为一个对象的方法来调用时，this 指向这个对象 构造器调用模式，如果一个函数用 new 调用时，函数执行前会新创建一个对象，t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="call,apply,bind">
+<meta property="og:url" content="http://melon1996.github.io/2022/11/17/js/this/index.html">
+<meta property="og:site_name" content="从心de博客">
+<meta property="og:description" content="对this对象的理解this 是执行上下文中的一个属性，它指向最后一次调用这个方法的对象。在实际开发中，this 的指向可以通过四种调用模式来判断。  函数调用模式，当一个函数不是一个对象的属性时，直接作为函数来调用时，this 指向全局对象 方法调用模式，如果一个函数作为一个对象的方法来调用时，this 指向这个对象 构造器调用模式，如果一个函数用 new 调用时，函数执行前会新创建一个对象，t">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-11-17T03:07:05.000Z">
+<meta property="article:modified_time" content="2022-11-17T13:42:32.193Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2022/11/17/js/this/" title="call,apply,bind" itemprop="url">call,apply,bind</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2022-11-17T03:07:05.000Z" itemprop="datePublished"> Published 2022-11-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9this%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">对this对象的理解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0call%EF%BC%8Capply%EF%BC%8Cbind%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">实现call，apply，bind函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#call%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">call函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#apply%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">apply函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bind%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">bind函数</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="对this对象的理解"><a href="#对this对象的理解" class="headerlink" title="对this对象的理解"></a>对this对象的理解</h1><p>this 是执行上下文中的一个属性，它指向最后一次调用这个方法的对象。在实际开发中，this 的指向可以通过四种调用模式来判断。</p>
+<ul>
+<li><strong>函数调用模式</strong>，当一个函数不是一个对象的属性时，直接作为函数来调用时，this 指向全局对象</li>
+<li><strong>方法调用模式</strong>，如果一个函数作为一个对象的方法来调用时，this 指向这个对象</li>
+<li><strong>构造器调用模式</strong>，如果一个函数用 new 调用时，函数执行前会新创建一个对象，this 指向这个新创建的对象</li>
+<li><strong>apply 、 call 和 bind 调用模式</strong>，这三个方法都可以显示的指定调用函数的 this 指向。其中 apply 方法接收两个参数：一个是 this 绑定的对象，一个是参数数组。call 方法接收的参数，第一个是 this 绑定的对象，后面的其余参数是传入函数执行的参数。也就是说，在使用 call() 方法时，传递给函数的参数必须逐个列举出来。bind 方法通过传入一个对象，返回一个 this 绑定了传入对象的新函数。这个函数的 this 指向除了使用 new 时会被改变，其他情况下都不会改变</li>
+</ul>
+<p>这四种方式，使用构造器调用模式的优先级最高，然后是 apply、call 和 bind 调用模式，然后是方法调用模式，然后是函数调用模式。</p>
+<h1 id="实现call，apply，bind函数"><a href="#实现call，apply，bind函数" class="headerlink" title="实现call，apply，bind函数"></a>实现call，apply，bind函数</h1><h2 id="call函数"><a href="#call函数" class="headerlink" title="call函数"></a>call函数</h2><ol>
+<li>判断调用对象是否为函数</li>
+<li>判断传入的上下文对象是否存在，如果不存在则设置为window</li>
+<li>处理传入的参数，截取第一个参数之后的所有参数作为call函数除第一个入参外的其余参数</li>
+<li>将函数作为上下文对象的一个属性</li>
+<li>使用上下文对象调用这个方法，并保存返回结果</li>
+<li>删除刚才新增的属性</li>
+<li>返回结果</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">myCall</span> = <span class="keyword">function</span>(<span class="params">context</span>) &#123;</span><br><span class="line">  <span class="comment">// 1. 判断调用对象</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable language_">this</span> !== <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&quot;Error&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2. 判断 context 是否传入，如果未传入则设置为 window</span></span><br><span class="line">  context = context || <span class="variable language_">window</span>;</span><br><span class="line">  <span class="comment">// 3. 获取参数</span></span><br><span class="line">  <span class="keyword">let</span> args = [...<span class="variable language_">arguments</span>].<span class="title function_">slice</span>(<span class="number">1</span>),</span><br><span class="line">    result = <span class="literal">null</span>;</span><br><span class="line">  <span class="comment">// 4. 将调用函数设为对象的方法</span></span><br><span class="line">  context.<span class="property">fn</span> = <span class="variable language_">this</span>;</span><br><span class="line">  <span class="comment">// 5. 调用函数并保存结果</span></span><br><span class="line">  result = context.<span class="title function_">fn</span>(...args);</span><br><span class="line">  <span class="comment">// 6. 将属性删除</span></span><br><span class="line">  <span class="keyword">delete</span> context.<span class="property">fn</span>;</span><br><span class="line">  <span class="comment">// 7. 返回结果</span></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="apply函数"><a href="#apply函数" class="headerlink" title="apply函数"></a>apply函数</h2><p>实现步骤与call方法一致，区别在于对于参数的处理上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">myApply</span> = <span class="keyword">function</span>(<span class="params">context</span>) &#123;</span><br><span class="line">  <span class="comment">// 判断调用对象是否为函数</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable language_">this</span> !== <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&quot;Error&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="literal">null</span>;</span><br><span class="line">  <span class="comment">// 判断 context 是否存在，如果未传入则为 window</span></span><br><span class="line">  context = context || <span class="variable language_">window</span>;</span><br><span class="line">  <span class="comment">// 将函数设为对象的方法</span></span><br><span class="line">  context.<span class="property">fn</span> = <span class="variable language_">this</span>;</span><br><span class="line">  <span class="comment">// 调用方法</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">arguments</span>[<span class="number">1</span>]) &#123;</span><br><span class="line">    result = context.<span class="title function_">fn</span>(...<span class="variable language_">arguments</span>[<span class="number">1</span>]);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    result = context.<span class="title function_">fn</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将属性删除</span></span><br><span class="line">  <span class="keyword">delete</span> context.<span class="property">fn</span>;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="bind函数"><a href="#bind函数" class="headerlink" title="bind函数"></a>bind函数</h2><p><strong>实现步骤</strong></p>
+<ol>
+<li>判断调用对象是否为函数</li>
+<li>保存当前函数的引用，获取其余传入的参数</li>
+<li>创建一个函数返回</li>
+<li>函数内部使用apply来绑定函数调用，需要判断函数作为构造函数的情况，此时需要传入当前函数的this给apply调用，其余情况都传入指定的上下文对象(?)</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">myBind</span> = <span class="keyword">function</span>(<span class="params">context</span>) &#123;</span><br><span class="line">  <span class="comment">// 判断调用对象是否为函数</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable language_">this</span> !== <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&quot;Error&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 获取参数</span></span><br><span class="line">  <span class="keyword">let</span> args = [...<span class="variable language_">arguments</span>].<span class="title function_">slice</span>(<span class="number">1</span>),</span><br><span class="line">    _self = <span class="variable language_">this</span>;</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">bindFn</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 根据调用方式，传入不同绑定值</span></span><br><span class="line">    <span class="keyword">return</span> _self.<span class="title function_">apply</span>(</span><br><span class="line">      <span class="variable language_">this</span> <span class="keyword">instanceof</span> bindFn ? <span class="variable language_">this</span> : context,</span><br><span class="line">      args.<span class="title function_">concat</span>(...<span class="variable language_">arguments</span>)</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">Func</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line">  <span class="title class_">Func</span>.<span class="property"><span class="keyword">prototype</span></span> = _self.<span class="property"><span class="keyword">prototype</span></span></span><br><span class="line">  bindFn.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title class_">Func</span>()</span><br><span class="line">  <span class="keyword">return</span> bindFn</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2022/11/17/js/this/" data-title="call,apply,bind | 从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2022/11/20/js/promise/" title="手写Promise">
+  <strong>上一篇：</strong><br/>
+  <span>
+  手写Promise</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2022/11/14/js/debounce/"  title="节流与防抖">
+ <strong>下一篇：</strong><br/> 
+ <span>节流与防抖
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9this%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">对this对象的理解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0call%EF%BC%8Capply%EF%BC%8Cbind%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">实现call，apply，bind函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#call%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">call函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#apply%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">apply函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bind%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">bind函数</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
