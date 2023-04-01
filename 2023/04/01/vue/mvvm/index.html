@@ -1,0 +1,471 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>vue的响应式和数据双向绑定原理 | 从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="vue的响应式vue的响应式是通过Object.defineProperty()方法（Vue2）或者Proxy方法（Vue3）实现的，通过Object.defineProperty()或Proxy劫持各个数据属性的setter和getter。当数据变动时会发布消息给订阅器，触发相应的监听事件渲染视图。 数据双向绑定定义数据双向绑定是VUE即MVVM框架的核心概念，简单地说就是数据的改变更新视图，视">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue的响应式和数据双向绑定原理">
+<meta property="og:url" content="http://melon1996.github.io/2023/04/01/vue/mvvm/index.html">
+<meta property="og:site_name" content="从心de博客">
+<meta property="og:description" content="vue的响应式vue的响应式是通过Object.defineProperty()方法（Vue2）或者Proxy方法（Vue3）实现的，通过Object.defineProperty()或Proxy劫持各个数据属性的setter和getter。当数据变动时会发布消息给订阅器，触发相应的监听事件渲染视图。 数据双向绑定定义数据双向绑定是VUE即MVVM框架的核心概念，简单地说就是数据的改变更新视图，视">
+<meta property="og:locale">
+<meta property="og:image" content="http://melon1996.github.io/images/mvvm/viewdata.png">
+<meta property="og:image" content="http://melon1996.github.io/images/mvvm/mvvm.png">
+<meta property="article:published_time" content="2023-04-01T13:48:14.000Z">
+<meta property="article:modified_time" content="2023-04-01T14:41:13.554Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://melon1996.github.io/images/mvvm/viewdata.png">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2023/04/01/vue/mvvm/" title="vue的响应式和数据双向绑定原理" itemprop="url">vue的响应式和数据双向绑定原理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2023-04-01T13:48:14.000Z" itemprop="datePublished"> Published 2023-04-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vue%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">vue的响应式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-number">2.</span> <span class="toc-text">数据双向绑定</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">具体实现</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="vue的响应式"><a href="#vue的响应式" class="headerlink" title="vue的响应式"></a>vue的响应式</h1><p>vue的响应式是通过<code>Object.defineProperty()</code>方法（Vue2）或者<code>Proxy</code>方法（Vue3）实现的，通过<code>Object.defineProperty()</code>或<code>Proxy</code>劫持各个数据属性的setter和getter。当数据变动时会发布消息给订阅器，触发相应的监听事件渲染视图。</p>
+<h1 id="数据双向绑定"><a href="#数据双向绑定" class="headerlink" title="数据双向绑定"></a>数据双向绑定</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>数据双向绑定是VUE即MVVM框架的核心概念，简单地说就是数据的改变更新视图，视图的变化也会变动数据。<img src="/images/mvvm/viewdata.png" alt="viewdata"><br>其中，View更新Data可以通过事件监听的方式实现，而Data更新View就是Vue数据双向绑定的核心，也是讨论的重点。</p>
+<p>具体步骤：</p>
+<ol>
+<li>实现一个监听器<code>Observer</code>，用来劫持并监听所有属性，如果属性发生变化，就通知订阅者；</li>
+<li>实现一个订阅器<code>Dep</code>，用来收集订阅者，对监听器<code>Observer</code>和订阅器<code>Watcher</code>进行统一管理；</li>
+<li>实现一个订阅者<code>Watcher</code>，用来收到属性的变化通知并执行相应的方法，从而更新视图；</li>
+<li>实现一个解析器<code>Compile</code>，用来解析每个节点的指令，对模板数据和订阅器进行初始化；</li>
+</ol>
+<p><img src="/images/mvvm/mvvm.png" alt="mvvm"></p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>模板：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;text&quot;</span>&gt;</span> <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    &#123;&#123; text &#125;&#125; <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    &#123;&#123; text &#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>javascript:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 监听器</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">observe</span>(<span class="params">obj, vm</span>) &#123;</span><br><span class="line">       <span class="title class_">Object</span>.<span class="title function_">keys</span>(obj).<span class="title function_">forEach</span>(<span class="keyword">function</span> (<span class="params">key</span>) &#123;</span><br><span class="line">           <span class="title function_">defineReactive</span>(vm, key, obj[key]);</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">function</span> <span class="title function_">defineReactive</span>(<span class="params">obj, key, val</span>) &#123;</span><br><span class="line">       <span class="keyword">var</span> dep = <span class="keyword">new</span> <span class="title class_">Dep</span>();</span><br><span class="line">       <span class="comment">// 响应式的数据绑定</span></span><br><span class="line">       <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, key, &#123;</span><br><span class="line">           <span class="attr">get</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">               <span class="comment">// 添加订阅者watcher到主题对象Dep</span></span><br><span class="line">               <span class="keyword">if</span> (<span class="title class_">Dep</span>.<span class="property">target</span>) &#123;</span><br><span class="line">                   dep.<span class="title function_">addSub</span>(<span class="title class_">Dep</span>.<span class="property">target</span>);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">return</span> val;</span><br><span class="line">           &#125;,</span><br><span class="line">           <span class="attr">set</span>: <span class="keyword">function</span> (<span class="params">newVal</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (newVal === val) &#123;</span><br><span class="line">                   <span class="keyword">return</span>; </span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   val = newVal;</span><br><span class="line">                   <span class="comment">// 作为发布者发出通知</span></span><br><span class="line">                   dep.<span class="title function_">notify</span>()                        </span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line"><span class="comment">// 解析器</span></span><br><span class="line">   <span class="keyword">function</span> <span class="title function_">compile</span>(<span class="params">node, vm</span>) &#123;</span><br><span class="line">       <span class="keyword">var</span> reg = <span class="regexp">/&#123;&#123;(.*)&#125;&#125;/</span>;</span><br><span class="line">       <span class="comment">// 节点类型为元素</span></span><br><span class="line">       <span class="keyword">if</span> (node.<span class="property">nodeType</span> === <span class="number">1</span>) &#123;</span><br><span class="line">           <span class="keyword">var</span> attr = node.<span class="property">attributes</span>;</span><br><span class="line">           <span class="comment">// 解析属性</span></span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; attr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">               <span class="keyword">if</span> (attr[i].<span class="property">nodeName</span> == <span class="string">&#x27;v-model&#x27;</span>) &#123;</span><br><span class="line">                   <span class="keyword">var</span> name = attr[i].<span class="property">nodeValue</span>; <span class="comment">// 获取v-model绑定的属性名</span></span><br><span class="line">                   node.<span class="title function_">addEventListener</span>(<span class="string">&#x27;input&#x27;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">                       <span class="comment">// 给相应的data属性赋值，进而触发属性的set方法</span></span><br><span class="line">                       vm[name] = e.<span class="property">target</span>.<span class="property">value</span>;</span><br><span class="line">                   &#125;)</span><br><span class="line">                   node.<span class="property">value</span> = vm[name]; <span class="comment">// 将data的值赋值给该node</span></span><br><span class="line">                   node.<span class="title function_">removeAttribute</span>(<span class="string">&#x27;v-model&#x27;</span>);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 节点类型为text</span></span><br><span class="line">       <span class="keyword">if</span> (node.<span class="property">nodeType</span> === <span class="number">3</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span> (reg.<span class="title function_">test</span>(node.<span class="property">nodeValue</span>)) &#123;</span><br><span class="line">               <span class="keyword">var</span> name = <span class="title class_">RegExp</span>.<span class="property">$1</span>; <span class="comment">// 获取匹配到的字符串</span></span><br><span class="line">               name = name.<span class="title function_">trim</span>();</span><br><span class="line">               <span class="comment">// node.nodeValue = vm[name]; // 将data的值赋值给该node</span></span><br><span class="line"></span><br><span class="line">               <span class="keyword">new</span> <span class="title class_">Watcher</span>(vm, node, name);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line"><span class="comment">// 订阅者</span></span><br><span class="line">   <span class="keyword">function</span> <span class="title function_">Watcher</span>(<span class="params">vm, node, name</span>) &#123;</span><br><span class="line">       <span class="title class_">Dep</span>.<span class="property">target</span> = <span class="variable language_">this</span>;</span><br><span class="line">       <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">       <span class="variable language_">this</span>.<span class="property">node</span> = node;</span><br><span class="line">       <span class="variable language_">this</span>.<span class="property">vm</span> = vm;</span><br><span class="line">       <span class="variable language_">this</span>.<span class="title function_">update</span>();</span><br><span class="line">       <span class="title class_">Dep</span>.<span class="property">target</span> = <span class="literal">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="title class_">Watcher</span>.<span class="property"><span class="keyword">prototype</span></span> = &#123;</span><br><span class="line">       <span class="attr">update</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">           <span class="variable language_">this</span>.<span class="title function_">get</span>();</span><br><span class="line">           <span class="variable language_">this</span>.<span class="property">node</span>.<span class="property">nodeValue</span> = <span class="variable language_">this</span>.<span class="property">value</span>;</span><br><span class="line">       &#125;,</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 获取data中的属性值</span></span><br><span class="line">       <span class="attr">get</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">           <span class="variable language_">this</span>.<span class="property">value</span> = <span class="variable language_">this</span>.<span class="property">vm</span>[<span class="variable language_">this</span>.<span class="property">name</span>]; <span class="comment">// 触发相应属性的get</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line"><span class="comment">// 订阅器</span></span><br><span class="line">   <span class="keyword">function</span> <span class="title function_">Dep</span> () &#123;</span><br><span class="line">       <span class="variable language_">this</span>.<span class="property">subs</span> = [];</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="title class_">Dep</span>.<span class="property"><span class="keyword">prototype</span></span> = &#123;</span><br><span class="line">       <span class="attr">addSub</span>: <span class="keyword">function</span> (<span class="params">sub</span>) &#123;</span><br><span class="line">           <span class="variable language_">this</span>.<span class="property">subs</span>.<span class="title function_">push</span>(sub);</span><br><span class="line">       &#125;,</span><br><span class="line">       <span class="attr">notify</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">           <span class="variable language_">this</span>.<span class="property">subs</span>.<span class="title function_">forEach</span>(<span class="keyword">function</span> (<span class="params">sub</span>) &#123;</span><br><span class="line">               sub.<span class="title function_">update</span>();</span><br><span class="line">           &#125;);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">function</span> <span class="title function_">nodeToFragment</span>(<span class="params">node, vm</span>) &#123;</span><br><span class="line">       <span class="keyword">var</span> flag = <span class="variable language_">document</span>.<span class="title function_">createDocumentFragment</span>();</span><br><span class="line">       <span class="keyword">var</span> child;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">while</span> (child = node.<span class="property">firstChild</span>) &#123;</span><br><span class="line">           <span class="title function_">compile</span>(child, vm);</span><br><span class="line">           flag.<span class="title function_">appendChild</span>(child); <span class="comment">// 将子节点劫持到文档片段中</span></span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">return</span> flag;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">function</span> <span class="title function_">Vue</span>(<span class="params">options</span>) &#123;</span><br><span class="line">       <span class="variable language_">this</span>.<span class="property">data</span> = options.<span class="property">data</span>;</span><br><span class="line">       <span class="keyword">var</span> data = <span class="variable language_">this</span>.<span class="property">data</span>;</span><br><span class="line"></span><br><span class="line">       <span class="title function_">observe</span>(data, <span class="variable language_">this</span>);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">var</span> id = options.<span class="property">el</span>;</span><br><span class="line">       <span class="keyword">var</span> dom = <span class="title function_">nodeToFragment</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id), <span class="variable language_">this</span>);</span><br><span class="line">       <span class="comment">// 编译完成后，将dom返回到app中。</span></span><br><span class="line">       <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id).<span class="title function_">appendChild</span>(dom);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">var</span> vm  = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">       <span class="attr">el</span>: <span class="string">&#x27;app&#x27;</span>,</span><br><span class="line">       <span class="attr">data</span>: &#123;</span><br><span class="line">           <span class="attr">text</span>: <span class="string">&#x27;hello world&#x27;</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考文章：<br> <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903903822086151">https://juejin.cn/post/6844903903822086151</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7142532417834713102#heading-3">https://juejin.cn/post/7142532417834713102#heading-3</a></p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/vue/">vue</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2023/04/01/vue/mvvm/" data-title="vue的响应式和数据双向绑定原理 | 从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2023/03/08/es6/module/"  title="模块化">
+ <strong>下一篇：</strong><br/> 
+ <span>模块化
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vue%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">vue的响应式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-number">2.</span> <span class="toc-text">数据双向绑定</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">具体实现</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/es6/" title="es6">es6<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2023 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
