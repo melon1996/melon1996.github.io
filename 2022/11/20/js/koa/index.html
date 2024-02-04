@@ -4,22 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>发布订阅者模式 | 从心de博客</title>
+    <title>手写洋葱模型 | 从心de博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="xin chen">
     
 
     
-    <meta name="description" content="JS设计模式之发布订阅者模式发布订阅者模式：基于一个事件（主题）通道，希望接收通知的对象Subscriber通过自定义事件订阅主题，被激活事件的对象Publisher通过发布主题事件的方式通知各个订阅该主题的Subscriber对象。  任务发布者Publisher 事件通道Event Channel 维护任务类型，以及每个人物下的订阅情况 给订阅者提供订阅功能——subscribe功能 给所有订">
+    <meta name="description" content="洋葱模型12345678910111213141516171819202122232425262728293031323334353637const app &#x3D; new Koa();app.use(async (ctx, next) &#x3D;&gt; &amp;#123;  console.log(&amp;#x27;a-start&amp;#x27;);  await next();  console.log(&amp;#x27;a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="发布订阅者模式">
-<meta property="og:url" content="http://melon1996.github.io/2022/12/03/js/pubsub/index.html">
+<meta property="og:title" content="手写洋葱模型">
+<meta property="og:url" content="http://melon1996.github.io/2022/11/20/js/koa/index.html">
 <meta property="og:site_name" content="从心de博客">
-<meta property="og:description" content="JS设计模式之发布订阅者模式发布订阅者模式：基于一个事件（主题）通道，希望接收通知的对象Subscriber通过自定义事件订阅主题，被激活事件的对象Publisher通过发布主题事件的方式通知各个订阅该主题的Subscriber对象。  任务发布者Publisher 事件通道Event Channel 维护任务类型，以及每个人物下的订阅情况 给订阅者提供订阅功能——subscribe功能 给所有订">
+<meta property="og:description" content="洋葱模型12345678910111213141516171819202122232425262728293031323334353637const app &#x3D; new Koa();app.use(async (ctx, next) &#x3D;&gt; &amp;#123;  console.log(&amp;#x27;a-start&amp;#x27;);  await next();  console.log(&amp;#x27;a">
 <meta property="og:locale">
-<meta property="article:published_time" content="2022-12-03T14:05:23.000Z">
-<meta property="article:modified_time" content="2022-12-03T14:21:10.954Z">
+<meta property="article:published_time" content="2022-11-20T09:04:43.000Z">
+<meta property="article:modified_time" content="2024-02-04T14:03:31.248Z">
 <meta property="article:author" content="xin chen">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2022/12/03/js/pubsub/" title="发布订阅者模式" itemprop="url">发布订阅者模式</a>
+      <a href="/2022/11/20/js/koa/" title="手写洋葱模型" itemprop="url">手写洋葱模型</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
 		
   <p class="article-time">
-    <time datetime="2022-12-03T14:05:23.000Z" itemprop="datePublished"> Published 2022-12-03</time>
+    <time datetime="2022-11-20T09:04:43.000Z" itemprop="datePublished"> Published 2022-11-20</time>
     
   </p>
 </header>
@@ -98,22 +98,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">JS设计模式之发布订阅者模式</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">洋葱模型</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="JS设计模式之发布订阅者模式"><a href="#JS设计模式之发布订阅者模式" class="headerlink" title="JS设计模式之发布订阅者模式"></a>JS设计模式之发布订阅者模式</h1><p><strong>发布订阅者模式</strong>：基于一个事件（主题）通道，希望接收通知的对象Subscriber通过自定义事件订阅主题，被激活事件的对象Publisher通过发布主题事件的方式通知各个订阅该主题的Subscriber对象。</p>
-<ul>
-<li>任务发布者Publisher</li>
-<li>事件通道Event Channel<ul>
-<li>维护任务类型，以及每个人物下的订阅情况</li>
-<li>给订阅者提供订阅功能——subscribe功能</li>
-<li>给所有订阅者发布任务——publish功能</li>
-</ul>
-</li>
-<li>任务接收者Subscriber</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pubsub</span>&#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">event</span>=&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">subscribe</span>(<span class="params">type,cb</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable language_">this</span>.<span class="property">event</span>[type])&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">event</span>[type]=[]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">event</span>[type].<span class="title function_">push</span>(cb)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">publish</span>(<span class="params">type</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable language_">this</span>.<span class="property">event</span>[type])&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">event</span>[type].<span class="title function_">forEach</span>(<span class="function"><span class="params">cb</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="title function_">cb</span>()</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">unsubscribe</span>(<span class="params">type,cb</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable language_">this</span>.<span class="property">event</span>[type])&#123;</span><br><span class="line">      <span class="keyword">const</span> index = <span class="variable language_">this</span>.<span class="property">event</span>[type].<span class="title function_">findIndex</span>(<span class="function"><span class="params">e</span>=&gt;</span>e===cb)</span><br><span class="line">      <span class="keyword">if</span>(index&gt;-<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">event</span>[type].<span class="title function_">splice</span>(index,<span class="number">1</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable language_">this</span>.<span class="property">event</span>[type].<span class="property">length</span>)&#123;</span><br><span class="line">      <span class="keyword">delete</span> <span class="variable language_">this</span>.<span class="property">event</span>[type]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">unsubscribe</span>(<span class="params">type</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable language_">this</span>.<span class="property">event</span>[type])&#123;</span><br><span class="line">      <span class="keyword">delete</span> <span class="variable language_">this</span>.<span class="property">event</span>[type]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>  
+		<h1 id="洋葱模型"><a href="#洋葱模型" class="headerlink" title="洋葱模型"></a>洋葱模型</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> <span class="title class_">Koa</span>();</span><br><span class="line">app.<span class="title function_">use</span>(<span class="keyword">async</span> (ctx, next) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;a-start&#x27;</span>);</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">next</span>();</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;a-end&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line">app.<span class="title function_">use</span>(<span class="keyword">async</span> (ctx, next) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;b-start&#x27;</span>);</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">next</span>();</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;b-end&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Koa</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">middlewares</span> = [];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">use</span>(<span class="params">fn</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">middlewares</span>.<span class="title function_">push</span>(fn);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">listen</span>(<span class="params">port</span>)&#123;</span><br><span class="line">    http.<span class="title function_">on</span>(<span class="string">&#x27;request&#x27;</span>, <span class="function"><span class="params">ctx</span>=&gt;</span>&#123;</span><br><span class="line">      <span class="title function_">callback</span>(<span class="variable language_">this</span>,ctx)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">const</span> callback=<span class="keyword">function</span>(<span class="params">instance,ctx</span>)&#123;</span><br><span class="line">      <span class="keyword">const</span> next = <span class="keyword">function</span>(<span class="params">index</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(index === instance.<span class="property">middlewares</span>.<span class="property">length</span>) <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>();</span><br><span class="line">        <span class="keyword">const</span> fn = instance.<span class="property">middlewares</span>[index];</span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="title function_">fn</span>(ctx, <span class="function">()=&gt;</span><span class="title function_">next</span>(index+<span class="number">1</span>)));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="title function_">next</span>(<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -130,7 +119,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://melon1996.github.io/2022/12/03/js/pubsub/" data-title="发布订阅者模式 | 从心de博客" data-tsina="" class="share clearfix">
+	  <div data-url="http://melon1996.github.io/2022/11/20/js/koa/" data-title="手写洋葱模型 | 从心de博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -144,18 +133,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2023/03/08/es6/module/" title="模块化">
+ <a href="/2022/12/03/js/observer/" title="观察者模式">
   <strong>上一篇：</strong><br/>
   <span>
-  模块化</span>
+  观察者模式</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2022/12/03/js/observer/"  title="观察者模式">
+<a href="/2022/11/20/js/promise/"  title="手写Promise">
  <strong>下一篇：</strong><br/> 
- <span>观察者模式
+ <span>手写Promise
 </span>
 </a>
 </div>
@@ -172,7 +161,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">JS设计模式之发布订阅者模式</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">洋葱模型</span></a></li></ol>
  
   </div>
 
