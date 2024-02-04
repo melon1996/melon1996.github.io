@@ -228,3 +228,55 @@ function resolvePromise(promise2, x, resolve, reject) {
 }
 
 ```
+
+# Promise.all
+
+只有全部的promise都是成功回调，才会把回调数组返回，并返回结果resolved，否则只要有一个失败，结果就是失败，并且把失败结果reject出来。
+
+*注意*
+1. Promise.all返回一个Promise对象
+2. Promise.all只接受数组参数
+```js
+ function promiseAll(array){
+  return new Promise((resolve,reject)=>{
+    let count=0
+    let arr = []
+    for(let i;i<array.length;i++){
+      Promise.resolve(array[i]).then(res=>{
+        count++
+        arr[i]=res
+        if(count===array.length){
+          resolve(arr)
+        }
+      }).catch(err=>{
+        reject(err)
+      })
+    }
+  })
+ }
+```
+
+# Promise.race
+
+返回第一个执行完成的状态，无论是成功还是失败。也是返回一个Promise类型
+
+```js
+  function promiseRace(array){
+    return new Promise((resolve,reject)=>{
+      let complete=false
+      for(let i;i<array.length;i++){
+        Promise.resolve(array[i]).then(res=>{
+          if(!complete){
+            complete = true
+            resolve(array[i])
+          }
+        }).catch(err=>{
+          if(!complete){
+            complete=true
+            reject(array[i])
+          }
+        })
+      }
+    })
+  }
+```
