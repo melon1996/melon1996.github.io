@@ -1,0 +1,512 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>loader和plugin的区别 | 从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="loaders和plugin的区别参考9个常见的 Webpack 面试题，中高级前端必会！ 常见的loader sass-loader：将SCSS&#x2F;SASS代码转换成CSS postcss-loader：扩展 CSS 语法，使用下一代 CSS，可以配合 autoprefixer 插件自动补齐 CSS3 前缀，加上兼容的浏览器厂商前缀 css-loader：处理样式之间互相引用的逻辑, 加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="loader和plugin的区别">
+<meta property="og:url" content="http://melon1996.github.io/2024/02/21/webpack/loaderPlugin/index.html">
+<meta property="og:site_name" content="从心de博客">
+<meta property="og:description" content="loaders和plugin的区别参考9个常见的 Webpack 面试题，中高级前端必会！ 常见的loader sass-loader：将SCSS&#x2F;SASS代码转换成CSS postcss-loader：扩展 CSS 语法，使用下一代 CSS，可以配合 autoprefixer 插件自动补齐 CSS3 前缀，加上兼容的浏览器厂商前缀 css-loader：处理样式之间互相引用的逻辑, 加">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-02-21T11:53:40.000Z">
+<meta property="article:modified_time" content="2024-02-21T11:55:00.117Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="webpack">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2024/02/21/webpack/loaderPlugin/" title="loader和plugin的区别" itemprop="url">loader和plugin的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2024-02-21T11:53:40.000Z" itemprop="datePublished"> Published 2024-02-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#loaders%E5%92%8Cplugin%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">loaders和plugin的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84loader"><span class="toc-number">1.1.</span> <span class="toc-text">常见的loader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84plugin"><span class="toc-number">1.2.</span> <span class="toc-text">常见的plugin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#loader%E5%92%8Cplugin%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">loader和plugin的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAloader"><span class="toc-number">1.4.</span> <span class="toc-text">手写一个loader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAplugin"><span class="toc-number">1.5.</span> <span class="toc-text">手写一个plugin</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="loaders和plugin的区别"><a href="#loaders和plugin的区别" class="headerlink" title="loaders和plugin的区别"></a>loaders和plugin的区别</h1><p>参考<a target="_blank" rel="noopener" href="https://juejin.cn/post/7157998164627161095?searchId=2024021809420323E8E6CB6657782A2F16">9个常见的 Webpack 面试题，中高级前端必会！</a></p>
+<h2 id="常见的loader"><a href="#常见的loader" class="headerlink" title="常见的loader"></a>常见的loader</h2><ul>
+<li>sass-loader：将SCSS&#x2F;SASS代码转换成CSS</li>
+<li>postcss-loader：扩展 CSS 语法，使用下一代 CSS，可以配合 autoprefixer 插件自动补齐 CSS3 前缀，加上兼容的浏览器厂商前缀</li>
+<li>css-loader：处理样式之间互相引用的逻辑, 加载 CSS，支持模块化、压缩、文件导入等特性</li>
+<li>style-loader：将 css-loader 解析后的内容挂载到 html 页面当中</li>
+<li>file-loader：可以指定要复制和放置资源文件的位置，以及使用版本哈希命名以获得更好的缓存，在代码中通过相对 URL 去引用输出的文件 (处理图片和字体)。</li>
+<li>url-loader：与 file-loader 类似，区别是用户可以设置一个阈值，大于阈值会交给 file-loader 处理，小于阈值时返回文件 base64 形式编码，减少HTTP请求</li>
+<li>image-loader：加载并且压缩图片文件</li>
+<li>source-map-loader：加载额外的 Source Map 文件，以方便断点调试</li>
+<li>json-loader 加载 JSON 文件（默认包含）</li>
+<li>babel-loader：把 ES6 转换成 ES5</li>
+<li>ts-loader: 将 TypeScript 转换成 JavaScript</li>
+<li>tslint-loader：通过 TSLint检查 TypeScript 代码</li>
+<li>eslint-loader：通过 ESLint 检查 JavaScript 代码</li>
+<li>mocha-loader：加载 Mocha 测试用例的代码</li>
+<li>coverjs-loader：计算测试的覆盖率</li>
+<li>vue-loader：将 Vue 组件转换为 JavaScript 模块</li>
+<li>i18n-loader: 国际化</li>
+<li>awesome-typescript-loader：将 TypeScript 转换成 JavaScript，性能优于 ts-loader<blockquote>
+<p>loader的执行顺序是从右到左，从下到上的，即从下到上执行完后再从右到左执行完。 所以我们要用 <code>saas-loader</code> 来处理 sass 文件, 再把它交给 <code>postcss-loader</code> 加上浏览器厂商前缀。然后通过 <code>css-loader</code> 处理样式之间的引用逻辑。最后通过 <code>style-loader</code> 将它挂在到 html上</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">export</span> = &#123;</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.scss$/</span>,</span><br><span class="line">        <span class="attr">use</span>: [</span><br><span class="line">          <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;postcss-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;sass-loader&#x27;</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见的plugin"><a href="#常见的plugin" class="headerlink" title="常见的plugin"></a>常见的plugin</h2><ul>
+<li>html-webpack-plugin：在 dist 下生成 html 文件。简化 HTML 文件创建 (依赖于 html-loader)</li>
+<li>clean-webpack-plugin: 目录清理。把 dist 删除再生成打包结果</li>
+<li>copy-webpack-plugin 因为 public 文件下的资源是固定的，直接拷贝到编译后的文件夹引入使用就可以，例如 favicon.ico</li>
+<li>open-browser-webpack-plugin 启动webpack之后，自动打开浏览器</li>
+<li>mini-css-extract-plugin: 分离样式文件，CSS 提取为独立文件，支持按需加载</li>
+<li>webpack-parallel-uglify-plugin: 多进程执行代码压缩，提升构建速度</li>
+<li>HappyPack Plugin: 开启多进程打包，提升打包速度</li>
+<li>webpack-bundle-analyzer: 可视化 Webpack 输出文件的体积 (业务组件、依赖第三方模块)</li>
+<li>Dllplugin: 动态链接库，将项目中依赖的三方模块抽离出来，单独打包</li>
+<li>DllReferencePlugin: 配合 Dllplugin，通过 manifest.json 映射到相关的依赖上去</li>
+<li>vue-skeleton-webpack-plugin: vue 项目实现骨架屏</li>
+</ul>
+<h2 id="loader和plugin的区别"><a href="#loader和plugin的区别" class="headerlink" title="loader和plugin的区别"></a>loader和plugin的区别</h2><ol>
+<li>概念</li>
+</ol>
+<p>loader是一个加载器，可以让webpack拥有解析和加载非JavaScript文件的能力。webpack本身只能解析JavaScript文件，如果想将其他文件也打包的话，就会用到loader，对其他类型的资源进行转译的预处理工作。<strong>其本质是一个函数，对函数中接收到的内容进行转换，返回转换后的结果。</strong></p>
+<p>plugin是一个插件，它的作用是增强webpack的功能，比如打包优化、资源管理、注入环境变量等。在 Webpack 运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。</p>
+<ol start="2">
+<li>配置方式</li>
+</ol>
+<p>loader在module.rules中配置，类型是数组，每一个对象就是一个loader。loader可以对文件类型进行匹配，然后进行相应的处理。</p>
+<p>plugin在plugins中配置，类型是数组，每一项是一个plugin实例，参数通过构造函数传入。</p>
+<ol start="3">
+<li>运行时机</li>
+</ol>
+<p>loader在打包构建之前，文件从输入到输出的转换过程中起作用（在模块加载时预处理文件）。</p>
+<p>plugin在整个构建过程中起作用，它的作用范围更广，可以监听webpack的生命周期的每个阶段。</p>
+<h2 id="手写一个loader"><a href="#手写一个loader" class="headerlink" title="手写一个loader"></a>手写一个loader</h2><p>一个简单的<code>style-loader</code>:作用是将css样式通过<code>&lt;style&gt;</code>标签插入到html中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span> (<span class="params">source</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="string">`</span></span><br><span class="line"><span class="string">    const style = document.createElement(&#x27;style&#x27;);</span></span><br><span class="line"><span class="string">    style.setAttribute(&quot;type&quot;, &quot;text/css&quot;);</span></span><br><span class="line"><span class="string">    style.innerHTML = <span class="subst">$&#123;source&#125;</span>;</span></span><br><span class="line"><span class="string">    document.head.appendChild(style);</span></span><br><span class="line"><span class="string">  `</span>;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="手写一个plugin"><a href="#手写一个plugin" class="headerlink" title="手写一个plugin"></a>手写一个plugin</h2><p>plugin是一个类，它的原型上需要定义apply的方法，该方法接收一个compiler参数，通过compiler获取webpack内部的钩子，然后在对应的钩子上挂载一个回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义一个名为MyPlugin插件，该插件在打包完成后，在控制台输出&quot;打包已完成&quot;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyPlugin</span> &#123;</span><br><span class="line">  <span class="comment">// 原型上需要定义apply 的方法</span></span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    <span class="comment">// 通过compiler获取webpack内部的钩子</span></span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">done</span>.<span class="title function_">tap</span>(<span class="string">&quot;My Plugin&quot;</span>, <span class="function">(<span class="params">compilation, cb</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;打包已完成&quot;</span>);</span><br><span class="line">      <span class="comment">// 分为同步和异步的钩子，异步钩子必须执行对应的回调</span></span><br><span class="line">      <span class="title function_">cb</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">MyPlugin</span>;</span><br></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/webpack/">webpack</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2024/02/21/webpack/loaderPlugin/" data-title="loader和plugin的区别 | 从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2024/02/21/http/jsonp/" title="JSONP">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JSONP</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2024/02/21/vue/vuex/"  title="Vuex原理">
+ <strong>下一篇：</strong><br/> 
+ <span>Vuex原理
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#loaders%E5%92%8Cplugin%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">loaders和plugin的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84loader"><span class="toc-number">1.1.</span> <span class="toc-text">常见的loader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84plugin"><span class="toc-number">1.2.</span> <span class="toc-text">常见的plugin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#loader%E5%92%8Cplugin%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">loader和plugin的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAloader"><span class="toc-number">1.4.</span> <span class="toc-text">手写一个loader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAplugin"><span class="toc-number">1.5.</span> <span class="toc-text">手写一个plugin</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webpack/" title="webpack">webpack<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

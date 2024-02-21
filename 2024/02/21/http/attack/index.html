@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>模块化 | 从心de博客</title>
+    <title>网络攻击 | 从心de博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="xin chen">
     
 
     
-    <meta name="description" content="什么是模块化把复杂代码按功能的不同划分成不同的模块单独维护，提高开发效率，降低维护成本。通常一个文件就是一个模块，有自己的作用域，只向外暴露特定的变量和函数。 模块化的标准目前流行的js模块化规范有CommonJS、AMD、CMD以及ES6的模块系统 ES Modules 和 CommonJS的一些区别 使用语法层面，CommonJs是通过module.exports，exports导出，requ">
+    <meta name="description" content="网络攻击前端常见的网络攻击有：XSS、CSRF、SQL注入、DNS劫持等。 XSSXSS（Cross Site Scripting）跨站脚本攻击，是一种代码注入攻击。攻击者在目标网站上注入恶意脚本，当用户访问该网站时，恶意脚本会被执行，从而达到攻击目的。XSS分为存储型XSS和反射型XSS。  存储型XSS：攻击者提交含有恶意脚本的请求(通常使用&lt;script&gt;&lt;&#x2F;script&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="模块化">
-<meta property="og:url" content="http://melon1996.github.io/2023/03/08/es6/module/index.html">
+<meta property="og:title" content="网络攻击">
+<meta property="og:url" content="http://melon1996.github.io/2024/02/21/http/attack/index.html">
 <meta property="og:site_name" content="从心de博客">
-<meta property="og:description" content="什么是模块化把复杂代码按功能的不同划分成不同的模块单独维护，提高开发效率，降低维护成本。通常一个文件就是一个模块，有自己的作用域，只向外暴露特定的变量和函数。 模块化的标准目前流行的js模块化规范有CommonJS、AMD、CMD以及ES6的模块系统 ES Modules 和 CommonJS的一些区别 使用语法层面，CommonJs是通过module.exports，exports导出，requ">
+<meta property="og:description" content="网络攻击前端常见的网络攻击有：XSS、CSRF、SQL注入、DNS劫持等。 XSSXSS（Cross Site Scripting）跨站脚本攻击，是一种代码注入攻击。攻击者在目标网站上注入恶意脚本，当用户访问该网站时，恶意脚本会被执行，从而达到攻击目的。XSS分为存储型XSS和反射型XSS。  存储型XSS：攻击者提交含有恶意脚本的请求(通常使用&lt;script&gt;&lt;&#x2F;script&amp;">
 <meta property="og:locale">
-<meta property="article:published_time" content="2023-03-08T13:07:22.000Z">
-<meta property="article:modified_time" content="2023-04-01T13:44:02.373Z">
+<meta property="article:published_time" content="2024-02-21T11:56:29.000Z">
+<meta property="article:modified_time" content="2024-02-21T11:57:19.955Z">
 <meta property="article:author" content="xin chen">
-<meta property="article:tag" content="es6">
+<meta property="article:tag" content="http">
 <meta name="twitter:card" content="summary">
 
     
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2023/03/08/es6/module/" title="模块化" itemprop="url">模块化</a>
+      <a href="/2024/02/21/http/attack/" title="网络攻击" itemprop="url">网络攻击</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
 		
   <p class="article-time">
-    <time datetime="2023-03-08T13:07:22.000Z" itemprop="datePublished"> Published 2023-03-08</time>
+    <time datetime="2024-02-21T11:56:29.000Z" itemprop="datePublished"> Published 2024-02-21</time>
     
   </p>
 </header>
@@ -98,20 +98,32 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">什么是模块化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E6%A0%87%E5%87%86"><span class="toc-number">2.</span> <span class="toc-text">模块化的标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES-Modules-%E5%92%8C-CommonJS%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8C%BA%E5%88%AB"><span class="toc-number">3.</span> <span class="toc-text">ES Modules 和 CommonJS的一些区别</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB"><span class="toc-number">1.</span> <span class="toc-text">网络攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">1.1.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF"><span class="toc-number">1.2.</span> <span class="toc-text">CSRF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">1.3.</span> <span class="toc-text">SQL注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%8A%AB%E6%8C%81"><span class="toc-number">1.4.</span> <span class="toc-text">网络劫持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS%E5%8A%AB%E6%8C%81"><span class="toc-number">1.4.1.</span> <span class="toc-text">DNS劫持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E5%8A%AB%E6%8C%81"><span class="toc-number">1.4.2.</span> <span class="toc-text">http劫持</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="什么是模块化"><a href="#什么是模块化" class="headerlink" title="什么是模块化"></a>什么是模块化</h2><p>把复杂代码按功能的不同划分成不同的模块单独维护，提高开发效率，降低维护成本。通常一个文件就是一个模块，有自己的作用域，只向外暴露特定的变量和函数。</p>
-<h2 id="模块化的标准"><a href="#模块化的标准" class="headerlink" title="模块化的标准"></a>模块化的标准</h2><p>目前流行的js模块化规范有CommonJS、AMD、CMD以及ES6的模块系统</p>
-<h2 id="ES-Modules-和-CommonJS的一些区别"><a href="#ES-Modules-和-CommonJS的一些区别" class="headerlink" title="ES Modules 和 CommonJS的一些区别"></a>ES Modules 和 CommonJS的一些区别</h2><ol>
-<li>使用语法层面，CommonJs是通过module.exports，exports导出，require导入；ESModule则是export导出，import导入</li>
-<li>CommonJs是运行时加载模块，ESModule是在静态编译期间就确定模块的依赖</li>
-<li>ESModule在编译期间会将所有import提升到顶部，CommonJs不会提升require</li>
-<li>CommonJs导出的是一个值拷贝，会对加载结果进行缓存，一旦内部再修改这个值，则不会同步到外部。ESModule是导出的一个引用，内部修改可以同步到外部</li>
-<li>CommonJs中顶层的this指向这个模块本身，而ESModule中顶层this指向undefined</li>
-<li>CommonJS加载的是整个模块，将所有的接口全部加载进来，ESModule可以单独加载其中的某个接口</li>
+		<h1 id="网络攻击"><a href="#网络攻击" class="headerlink" title="网络攻击"></a>网络攻击</h1><p>前端常见的网络攻击有：XSS、CSRF、SQL注入、DNS劫持等。</p>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><p>XSS（Cross Site Scripting）跨站脚本攻击，是一种代码注入攻击。攻击者在目标网站上注入恶意脚本，当用户访问该网站时，恶意脚本会被执行，从而达到攻击目的。<br>XSS分为存储型XSS和反射型XSS。</p>
+<ul>
+<li>存储型XSS：攻击者提交含有恶意脚本的请求(通常使用<code>&lt;script&gt;&lt;/script&gt;</code>)，此脚本被保存在数据库中，当用户访问该网站时，恶意脚本会被执行。<br>  解决：对用户输入的内容进行过滤，对特殊字符进行转义。</li>
+<li>反射型XSS：攻击者构造含有恶意脚本的URL，用户点击该URL后，恶意脚本会被执行，攻击者可以获取用户的cookie信息或密码等重要信息，进行恶性操作。<br>  解决：开启cookie的HttpOnly属性，禁止JavaScript脚本读取cookie信息。</li>
+</ul>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><p>CSRF（Cross Site Request Forgery）跨站请求伪造，是一种利用用户身份在目标网站上执行非预期操作的攻击。攻击者构造一个恶意网站，通过盗取cookie等用户信息访问该网站，从而在用户的浏览器中执行非预期操作。</p>
+<p>解决：</p>
+<ol>
+<li>同源检测<br>可以通过<code>origin header</code>, <code>referer header</code>等字段来判断请求的来源是否合法。这种方法只可以防御第三方网站，不能防御同域下的CSRF攻击。</li>
+<li>token验证<br>后端生成一个token，放在cookie中传给前端，每次请求时，前端将token放在请求头中，后端验证token是否合法。</li>
+<li>cookie SameSite校验<br>SameSite是cookie的一个属性，可以设置为Strict、Lax、None。Strict表示同站请求才会携带cookie，Lax表示部分跨站请求也会携带cookie，None表示所有请求都会携带cookie。<br>当<code>SameSite=Lax</code>时，下面的跨站请求不会携带cookie：<ul>
+<li>script标签，jsonp将无法使用</li>
+<li>img标签</li>
+<li>iframe</li>
+<li>POST请求</li>
+</ul>
+</li>
 </ol>
+<h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p>攻击者在HTTP请求中注入恶意SQL命令，服务器用请求参数构造数据库SQL命令时，恶意SQL被执行。</p>
+<h2 id="网络劫持"><a href="#网络劫持" class="headerlink" title="网络劫持"></a>网络劫持</h2><h3 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h3><p>攻击者劫持了 DNS 服务器，获得了修改 DNS 解析记录的权限，从而导致客户端请求的域名被解析到了错误的 IP 地址，攻击者通过这种方式窃取用户资料或破坏原有正常服务。</p>
+<h3 id="http劫持"><a href="#http劫持" class="headerlink" title="http劫持"></a>http劫持</h3><p>攻击者通过劫持用户的http请求，将用户的请求重定向到攻击者的服务器上，从而窃取用户的信息。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -120,7 +132,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/es6/">es6</a>
+  <span></span> <a href="/tags/http/">http</a>
   </div>
 
 </div>
@@ -129,7 +141,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://melon1996.github.io/2023/03/08/es6/module/" data-title="模块化 | 从心de博客" data-tsina="" class="share clearfix">
+	  <div data-url="http://melon1996.github.io/2024/02/21/http/attack/" data-title="网络攻击 | 从心de博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -142,19 +154,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2023/04/01/vue/mvvm/" title="vue的响应式和数据双向绑定原理">
-  <strong>上一篇：</strong><br/>
-  <span>
-  vue的响应式和数据双向绑定原理</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2022/12/03/js/pubsub/"  title="发布订阅者模式">
+<a href="/2024/02/21/http/jsonp/"  title="JSONP">
  <strong>下一篇：</strong><br/> 
- <span>发布订阅者模式
+ <span>JSONP
 </span>
 </a>
 </div>
@@ -171,7 +175,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">什么是模块化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E6%A0%87%E5%87%86"><span class="toc-number">2.</span> <span class="toc-text">模块化的标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES-Modules-%E5%92%8C-CommonJS%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8C%BA%E5%88%AB"><span class="toc-number">3.</span> <span class="toc-text">ES Modules 和 CommonJS的一些区别</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB"><span class="toc-number">1.</span> <span class="toc-text">网络攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">1.1.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF"><span class="toc-number">1.2.</span> <span class="toc-text">CSRF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">1.3.</span> <span class="toc-text">SQL注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%8A%AB%E6%8C%81"><span class="toc-number">1.4.</span> <span class="toc-text">网络劫持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS%E5%8A%AB%E6%8C%81"><span class="toc-number">1.4.1.</span> <span class="toc-text">DNS劫持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E5%8A%AB%E6%8C%81"><span class="toc-number">1.4.2.</span> <span class="toc-text">http劫持</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -190,19 +194,15 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>8</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>11</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
+				<li><a href="/tags/http/" title="http">http<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/vue/" title="vue">vue<sup>2</sup></a></li>
+				<li><a href="/tags/vue/" title="vue">vue<sup>3</sup></a></li>
 			
 		
 			
@@ -210,7 +210,7 @@
 			
 		
 			
-				<li><a href="/tags/es6/" title="es6">es6<sup>1</sup></a></li>
+				<li><a href="/tags/webpack/" title="webpack">webpack<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -220,7 +220,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
   </div>
 
 

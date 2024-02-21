@@ -1,0 +1,509 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Vuex原理 | 从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="Vuex原理参考：手写vuex核心原理 什么是Vuex   来自官方的解释 vuex官网    Vuex 是一个专门为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。   Vuex包含：状态(数据源)、视图、操作。是一种单向数据流理念，状态映射在视图上显现，视图上的操作改变状态。 Vuex的核心概念：state">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vuex原理">
+<meta property="og:url" content="http://melon1996.github.io/2024/02/21/vue/vuex/index.html">
+<meta property="og:site_name" content="从心de博客">
+<meta property="og:description" content="Vuex原理参考：手写vuex核心原理 什么是Vuex   来自官方的解释 vuex官网    Vuex 是一个专门为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。   Vuex包含：状态(数据源)、视图、操作。是一种单向数据流理念，状态映射在视图上显现，视图上的操作改变状态。 Vuex的核心概念：state">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-02-21T11:49:17.000Z">
+<meta property="article:modified_time" content="2024-02-21T11:50:11.329Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2024/02/21/vue/vuex/" title="Vuex原理" itemprop="url">Vuex原理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2024-02-21T11:49:17.000Z" itemprop="datePublished"> Published 2024-02-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Vuex%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">Vuex原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFVuex"><span class="toc-number">1.1.</span> <span class="toc-text">什么是Vuex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">Vuex基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-number">1.3.</span> <span class="toc-text">相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue-use%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">Vue.use介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vuex%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">Vuex的本质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99Vuex"><span class="toc-number">1.4.</span> <span class="toc-text">手写Vuex</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Vuex原理"><a href="#Vuex原理" class="headerlink" title="Vuex原理"></a>Vuex原理</h1><p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6855474001838342151?searchId=202402081503391D3D8D0FD083DA237AD2">手写vuex核心原理</a></p>
+<h2 id="什么是Vuex"><a href="#什么是Vuex" class="headerlink" title="什么是Vuex"></a>什么是Vuex</h2><table>
+<thead>
+<tr>
+<th align="left">来自官方的解释 <a target="_blank" rel="noopener" href="https://vuex.vuejs.org/">vuex官网</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Vuex 是一个专门为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</td>
+</tr>
+</tbody></table>
+<p>Vuex包含：状态(数据源)、视图、操作。是一种单向数据流理念，状态映射在视图上显现，视图上的操作改变状态。</p>
+<p>Vuex的核心概念：state、getter、mutation、action、module。</p>
+<p><strong>注意</strong></p>
+<ol>
+<li>Vuex 的状态存储是响应式的</li>
+<li>改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation</li>
+</ol>
+<h2 id="Vuex基本使用"><a href="#Vuex基本使用" class="headerlink" title="Vuex基本使用"></a>Vuex基本使用</h2><p>main.js中引入Vue和store，将store注入到Vue实例中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&#x27;./store/index &#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  store,</span><br><span class="line">  <span class="attr">render</span>: <span class="function"><span class="params">h</span> =&gt;</span> <span class="title function_">h</span>(<span class="title class_">App</span>)</span><br><span class="line">&#125;).$mount(<span class="string">&#x27;#app&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>store&#x2F;index.js中引入Vue和Vuex，创建store实例并导出。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vuex</span> <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>(<span class="title class_">Vuex</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> <span class="title class_">Vuex</span>.<span class="title class_">Store</span>(&#123;</span><br><span class="line">  <span class="attr">state</span>: &#123;</span><br><span class="line">    <span class="attr">count</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">getters</span>:&#123;</span><br><span class="line">    <span class="title function_">doubleCount</span>(<span class="params">state</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> state.<span class="property">count</span>*<span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;</span><br><span class="line">    increment (state,payload) &#123;</span><br><span class="line">      state.<span class="property">count</span>=payload</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    increment (context,payload) &#123;</span><br><span class="line">      context.<span class="title function_">commit</span>(<span class="string">&#x27;increment&#x27;</span>,payload)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2><h3 id="Vue-use介绍"><a href="#Vue-use介绍" class="headerlink" title="Vue.use介绍"></a>Vue.use介绍</h3><p>vuex是通过插件注册的方式<code>Vue.use(Vuex)</code>引入到Vue中的，这里的<code>Vue.use</code>是Vue的一个全局API，用来注册插件。</p>
+<p><code>Vue.use(plugin,options)</code></p>
+<ul>
+<li>plugin：插件，可以是一个对象或者函数，如果是一个对象，必须提供install方法，如果是一个函数，会被当做install方法。</li>
+<li>options：可选参数，传递给插件的参数</li>
+</ul>
+<p><strong>注意</strong></p>
+<ol>
+<li>当插件被安装后，会在Vue的构造函数上挂载一个静态方法<code>Vue.prototype.$plugin</code>，可以通过<code>this.$plugin</code>在组件中使用插件的方法。</li>
+<li>插件必须在调用<code>new Vue()</code>之前被安装。</li>
+<li>一个插件只能被安装一次，重复安装会被忽略。</li>
+</ol>
+<p><strong>简单实现</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="property">use</span> = <span class="keyword">function</span>(<span class="params">plugin</span>)&#123;</span><br><span class="line">  <span class="keyword">const</span> installedPlugins = (<span class="variable language_">this</span>.<span class="property">_installedPlugins</span> || (<span class="variable language_">this</span>.<span class="property">_installedPlugins</span> = []));</span><br><span class="line">  <span class="keyword">if</span>(installedPlugins.<span class="title function_">indexOf</span>(plugin)&gt;-<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 其他参数</span></span><br><span class="line">  <span class="keyword">const</span> args = <span class="title function_">toArray</span>(<span class="variable language_">arguments</span>,<span class="number">1</span>);</span><br><span class="line">  args.<span class="title function_">unshift</span>(<span class="variable language_">this</span>);</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">typeof</span> plugin.<span class="property">install</span> === <span class="string">&#x27;function&#x27;</span>)&#123;</span><br><span class="line">    plugin.<span class="property">install</span>.<span class="title function_">apply</span>(plugin,args);</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> plugin === <span class="string">&#x27;function&#x27;</span>)&#123;</span><br><span class="line">    plugin.<span class="title function_">apply</span>(<span class="literal">null</span>,plugin,args);</span><br><span class="line">  &#125;</span><br><span class="line">  installedPlugins.<span class="title function_">push</span>(plugin);</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Vuex的本质"><a href="#Vuex的本质" class="headerlink" title="Vuex的本质"></a>Vuex的本质</h3><p>由于Vuex通过<code>Vue.use(Vuex)</code>引入到Vue中，所以Vuex的本质是一个插件。</p>
+<ol>
+<li><p>Vuex是一个包含install方法的对象，install方法接收Vue作为参数。</p>
+</li>
+<li><p>Vuex中包含一个可以被实例化的Store类，Store类中包含了state、getter、mutation、action等方法。当Vue实例化时，会将store注入到Vue实例中。</p>
+</li>
+</ol>
+<p>因此我们可以知道Vuex的基本框架是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Store</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> install = <span class="keyword">function</span>(<span class="params">Vue</span>)&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title class_">Store</span>,</span><br><span class="line">  install</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>install方法</strong></p>
+<p>为什么所有的组件都能访问到store实例呢？</p>
+<p>这是因为在install方法中，通过<code>Vue.mixin</code>方式将store实例混入到所有组件下，混入的时机为<code>beforeCreate</code>，这样所有的组件都能访问到store实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> install = <span class="keyword">function</span>(<span class="params">Vue</span>)&#123;</span><br><span class="line">    <span class="title class_">Vue</span>.<span class="title function_">mixin</span>(&#123;</span><br><span class="line">        <span class="title function_">beforeCreate</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">$options</span> &amp;&amp; <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">store</span>)&#123; <span class="comment">// 如果是根组件</span></span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">$store</span> = <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">store</span></span><br><span class="line">            &#125;<span class="keyword">else</span> &#123; <span class="comment">//如果是子组件</span></span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">$store</span> = <span class="variable language_">this</span>.<span class="property">$parent</span> &amp;&amp; <span class="variable language_">this</span>.<span class="property">$parent</span>.<span class="property">$store</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="手写Vuex"><a href="#手写Vuex" class="headerlink" title="手写Vuex"></a>手写Vuex</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// store类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Store</span>&#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">vm</span> = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">      <span class="attr">data</span>:&#123;</span><br><span class="line">        <span class="attr">state</span>:options.<span class="property">state</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// getters</span></span><br><span class="line">    <span class="keyword">const</span> getters = options.<span class="property">getters</span> || &#123;&#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">getters</span> = &#123;&#125;</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">keys</span>(getters).<span class="title function_">forEach</span>(<span class="function"><span class="params">getterName</span>=&gt;</span>&#123;</span><br><span class="line">      <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="variable language_">this</span>.<span class="property">getters</span>,getterName,&#123;</span><br><span class="line">        <span class="attr">get</span>:<span class="function">()=&gt;</span>&#123;</span><br><span class="line">          <span class="keyword">return</span> getters[getterName](<span class="variable language_">this</span>.<span class="property">state</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// mutations</span></span><br><span class="line">    <span class="keyword">const</span> mutations = options.<span class="property">mutations</span> || &#123;&#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">mutations</span> = &#123;&#125;</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">keys</span>(mutations).<span class="title function_">forEach</span>(<span class="function"><span class="params">mutationName</span>=&gt;</span>&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">mutations</span>[mutationName] = <span class="function">(<span class="params">payload</span>)=&gt;</span>&#123;</span><br><span class="line">        mutations[mutationName](<span class="variable language_">this</span>.<span class="property">state</span>,payload)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// actions</span></span><br><span class="line">    <span class="keyword">const</span> actions = options.<span class="property">actions</span> || &#123;&#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">actions</span> = &#123;&#125;</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">keys</span>(actions).<span class="title function_">forEach</span>(<span class="function"><span class="params">actionName</span>=&gt;</span>&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">actions</span>[actionName] = <span class="function">(<span class="params">payload</span>)=&gt;</span>&#123;</span><br><span class="line">        actions[actionName](<span class="variable language_">this</span>,payload)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">get</span> <span class="title function_">state</span>()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">vm</span>.<span class="property">state</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// commit方法</span></span><br><span class="line">  <span class="comment">// 使用箭头函数，保证调用dispatch时commit内的this指向当前store实例</span></span><br><span class="line">  commit=<span class="function">(<span class="params">mutation, payload</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">mutations</span>[mutation](payload)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">dispatch</span>(<span class="params">action,payload</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">actions</span>[action](payload)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// install方法</span></span><br><span class="line"><span class="keyword">const</span> install = <span class="keyword">function</span>(<span class="params">Vue</span>) &#123;</span><br><span class="line">  <span class="title class_">Vue</span>.<span class="title function_">mixin</span>(&#123;</span><br><span class="line">    <span class="title function_">beforeCreate</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">store</span>) &#123; <span class="comment">// 根实例</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$store</span> = <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">store</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">$store</span> = <span class="variable language_">this</span>.<span class="property">$parent</span> &amp;&amp; <span class="variable language_">this</span>.<span class="property">$parent</span>.<span class="property">$store</span> <span class="comment">//  子组件继承父组件的store</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title class_">Store</span>,</span><br><span class="line">  install</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/vue/">vue</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2024/02/21/vue/vuex/" data-title="Vuex原理 | 从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2024/02/21/webpack/loaderPlugin/" title="loader和plugin的区别">
+  <strong>上一篇：</strong><br/>
+  <span>
+  loader和plugin的区别</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2024/02/07/js/animation/"  title="js中实现动画">
+ <strong>下一篇：</strong><br/> 
+ <span>js中实现动画
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Vuex%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">Vuex原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFVuex"><span class="toc-number">1.1.</span> <span class="toc-text">什么是Vuex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">Vuex基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-number">1.3.</span> <span class="toc-text">相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue-use%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">Vue.use介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vuex%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">Vuex的本质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99Vuex"><span class="toc-number">1.4.</span> <span class="toc-text">手写Vuex</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webpack/" title="webpack">webpack<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
