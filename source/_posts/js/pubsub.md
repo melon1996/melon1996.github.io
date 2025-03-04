@@ -35,18 +35,16 @@ tags: js
       }
     }
     unsubscribe(type,cb){
-      if(this.event[type]){
-        const index = this.event[type].findIndex(e=>e===cb)
-        if(index>-1){
-          this.event[type].splice(index,1)
-        }
+      if(!this.event[type]) return
+      if(!cb){
+        delete this.event[type]
+        return 
+      }
+      const index = this.event[type].findIndex(e=>e===cb)
+      if(index>-1){
+        this.event[type].splice(index,1)
       }
       if(!this.event[type].length){
-        delete this.event[type]
-      }
-    }
-    unsubscribe(type){
-      if(this.event[type]){
         delete this.event[type]
       }
     }
