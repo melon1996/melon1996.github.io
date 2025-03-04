@@ -1,0 +1,496 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="http发展-http&#x2F;1到http&#x2F;3概念http 是超文本传输协议（HyperText Transfer Protocol）的缩写，是用于从万维网服务器传输超文本到本地浏览器的传送协议。http 是基于 TCP&#x2F;IP 协议的应用层协议。http&#x2F;1.1 是目前使用最广泛的版本。  http不断实现更多功能，到目前从http 0.9已经发展到http 3.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从心de博客">
+<meta property="og:url" content="http://melon1996.github.io/2025/03/05/http/http%E5%8F%91%E5%B1%95/index.html">
+<meta property="og:site_name" content="从心de博客">
+<meta property="og:description" content="http发展-http&#x2F;1到http&#x2F;3概念http 是超文本传输协议（HyperText Transfer Protocol）的缩写，是用于从万维网服务器传输超文本到本地浏览器的传送协议。http 是基于 TCP&#x2F;IP 协议的应用层协议。http&#x2F;1.1 是目前使用最广泛的版本。  http不断实现更多功能，到目前从http 0.9已经发展到http 3.">
+<meta property="og:locale">
+<meta property="og:image" content="http://melon1996.github.io/images/http/http2.jpg">
+<meta property="article:published_time" content="2025-03-04T16:02:19.084Z">
+<meta property="article:modified_time" content="2025-03-04T16:02:19.085Z">
+<meta property="article:author" content="xin chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://melon1996.github.io/images/http/http2.jpg">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2025/03/05/http/http发展/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2025-03-04T16:02:19.084Z" itemprop="datePublished"> Published 2025-03-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#http%E5%8F%91%E5%B1%95-http-x2F-1%E5%88%B0http-x2F-3"><span class="toc-number">1.</span> <span class="toc-text">http发展-http&#x2F;1到http&#x2F;3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-0-9"><span class="toc-number">1.2.</span> <span class="toc-text">http&#x2F;0.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-1-0"><span class="toc-number">1.3.</span> <span class="toc-text">http&#x2F;1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-1-1"><span class="toc-number">1.4.</span> <span class="toc-text">http&#x2F;1.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-2-0"><span class="toc-number">1.5.</span> <span class="toc-text">http&#x2F;2.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-3-0-HTTP-over-QUIC"><span class="toc-number">1.6.</span> <span class="toc-text">http&#x2F;3.0 (HTTP-over-QUIC)</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="http发展-http-x2F-1到http-x2F-3"><a href="#http发展-http-x2F-1到http-x2F-3" class="headerlink" title="http发展-http&#x2F;1到http&#x2F;3"></a>http发展-http&#x2F;1到http&#x2F;3</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>http 是超文本传输协议（HyperText Transfer Protocol）的缩写，是用于从万维网服务器传输超文本到本地浏览器的传送协议。http 是基于 TCP&#x2F;IP 协议的应用层协议。http&#x2F;1.1 是目前使用最广泛的版本。</p>
+<blockquote>
+<p>http不断实现更多功能，到目前从http 0.9已经发展到http 3.0。</p>
+</blockquote>
+<h2 id="http-x2F-0-9"><a href="#http-x2F-0-9" class="headerlink" title="http&#x2F;0.9"></a>http&#x2F;0.9</h2><p>被正式制定为标准是在1996年公布的HTTP&#x2F;1.0协议，在此之前的协议都被称为HTTP&#x2F;0.9。HTTP&#x2F;0.9是一个非常简单的协议，只有一个命令GET：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /index.html</span><br></pre></td></tr></table></figure>
+
+<p>没有HEADER等描述数据的信息，只能传递html文件，服务器发送完毕，就关闭TCP连接。</p>
+<h2 id="http-x2F-1-0"><a href="#http-x2F-1-0" class="headerlink" title="http&#x2F;1.0"></a>http&#x2F;1.0</h2><p>1996年5月，HTTP&#x2F;1.0被正式制定为标准。HTTP&#x2F;1.0相对于0.9版本的协议，增加了很多功能：</p>
+<ul>
+<li>增加了POST和HEAD方法</li>
+<li>增加了状态行</li>
+<li>在request中增加了HTTP的版本号</li>
+<li>在request和response中增加了Header</li>
+<li>添加[Content-Type]字段，支持传输html之外类型的文件</li>
+<li>添加[Content-Encoding]字段，支持不同编码格式文件的传输，支持gzip、deflate、compress压缩格式</li>
+<li>支持长连接</li>
+</ul>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/index.html</span> <span class="meta">HTTP/1.0</span></span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>NCSA_Mosaic/2.0 (Windows 3.1)</span><br><span class="line"></span><br><span class="line"><span class="language-apache"><span class="attribute">200</span> OK</span></span><br><span class="line"><span class="language-apache"><span class="attribute">Date</span>: Tue, <span class="number">15</span> Nov <span class="number">1994</span> <span class="number">08</span>:<span class="number">12</span>:<span class="number">31</span> GMT</span></span><br><span class="line"><span class="language-apache"><span class="attribute">Server</span>: CERN/<span class="number">3</span>.<span class="number">0</span> libwww/<span class="number">2</span>.<span class="number">17</span></span></span><br><span class="line"><span class="language-apache"><span class="attribute">Content</span>-Type: text/html；charset=utf-<span class="number">8</span> // 类型，编码。</span></span><br><span class="line"><span class="language-apache"><span class="section">&lt;HTML&gt;</span></span></span><br><span class="line"><span class="language-apache">    <span class="attribute">A</span> page with an image</span></span><br><span class="line"><span class="language-apache">    <span class="section">&lt;IMG src=<span class="string">&quot;/image.gif&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-apache"><span class="section">&lt;HTML&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p> <strong>缺点</strong></p>
+<ul>
+<li>队头阻塞，每个TCP连接只能发送一个请求，数据发送完毕就会关闭连接。</li>
+<li>默认是短连接，即每个http请求都要使用TCP协议通过三次握手和四次挥手实现</li>
+<li>仅定义了16种状态码</li>
+</ul>
+<h2 id="http-x2F-1-1"><a href="#http-x2F-1-1" class="headerlink" title="http&#x2F;1.1"></a>http&#x2F;1.1</h2><p>到目前为止，HTTP&#x2F;1.1是最为广泛使用的版本。HTTP&#x2F;1.1在1.0的基础上增加了一些新的特性：</p>
+<ul>
+<li>持久连接（keep-live）：默认开启，一个TCP连接可以传输多个HTTP请求和响应。</li>
+<li>管道机制：在持久连接的基础上，允许在前一个请求响应完全返回之前发送下一个请求，降低通信的延迟。</li>
+<li>chunked机制，分块响应。</li>
+<li>引入缓存控制机制：强缓存和协商缓存，Cache-Control、Expires、Last-Modified、ETag等字段</li>
+<li>引入了Host字段，支持多个域名共享一个IP地址</li>
+<li>引入了PUT、DELETE、OPTIONS、TRACE、CONNECT等方法</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>队头阻塞问题依然存在</li>
+<li>无状态性，巨大的http头部</li>
+<li>无法支持服务器推送</li>
+</ul>
+<h2 id="http-x2F-2-0"><a href="#http-x2F-2-0" class="headerlink" title="http&#x2F;2.0"></a>http&#x2F;2.0</h2><p>HTTP&#x2F;2.0是HTTP&#x2F;1.1的升级版本，主要的改进有：</p>
+<ul>
+<li>二进制分帧：HTTP&#x2F;2.0的数据传输是二进制格式，而不是文本格式，这样可以更方便的解析和处理。</li>
+<li>多路复用：在一个TCP连接上可以并行的发送多个请求和响应，解决了队头阻塞问题。</li>
+<li>头部压缩：HTTP&#x2F;2.0使用HPACK算法对header的数据进行压缩，减少了数据传输量。</li>
+<li>服务器推送：服务器可以主动推送资源给客户端，减少了客户端请求的次数。</li>
+</ul>
+<p><img src="/images/http/http2.jpg" alt="http2.0"></p>
+<p><strong>缺点</strong></p>
+<ul>
+<li>由于http&#x2F;2.0是基于TCP的，所以TCP的队头阻塞问题依然存在</li>
+</ul>
+<h2 id="http-x2F-3-0-HTTP-over-QUIC"><a href="#http-x2F-3-0-HTTP-over-QUIC" class="headerlink" title="http&#x2F;3.0 (HTTP-over-QUIC)"></a>http&#x2F;3.0 (HTTP-over-QUIC)</h2><p>HTTP&#x2F;3.0是基于QUIC协议的，QUIC是基于UDP的低时延的互联网传输层协议，解决了TCP的队头阻塞问题。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2025/03/05/http/http%E5%8F%91%E5%B1%95/" data-title="从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2025/03/04/webpack/gulp/"  title="自动构建工具gulp">
+ <strong>下一篇：</strong><br/> 
+ <span>自动构建工具gulp
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#http%E5%8F%91%E5%B1%95-http-x2F-1%E5%88%B0http-x2F-3"><span class="toc-number">1.</span> <span class="toc-text">http发展-http&#x2F;1到http&#x2F;3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-0-9"><span class="toc-number">1.2.</span> <span class="toc-text">http&#x2F;0.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-1-0"><span class="toc-number">1.3.</span> <span class="toc-text">http&#x2F;1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-1-1"><span class="toc-number">1.4.</span> <span class="toc-text">http&#x2F;1.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-2-0"><span class="toc-number">1.5.</span> <span class="toc-text">http&#x2F;2.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http-x2F-3-0-HTTP-over-QUIC"><span class="toc-number">1.6.</span> <span class="toc-text">http&#x2F;3.0 (HTTP-over-QUIC)</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webpack/" title="webpack">webpack<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2025 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

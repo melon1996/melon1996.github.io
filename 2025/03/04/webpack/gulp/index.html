@@ -1,0 +1,524 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>自动构建工具gulp | 从心de博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="xin chen">
+    
+
+    
+    <meta name="description" content="官网：https:&#x2F;&#x2F;www.gulpjs.com.cn&#x2F; 什么是gulpGulp 是一个基于Node.js的自动化构建工具，开发者可以使用它在项目开发过程中自动执行常见任务，例如压缩、合并文件，运行测试等。  主要特点：  丰富优秀的插件生态系统 易于学习和使用，每个插件都有对应的API，支持灵活的配置 易于维护和扩展 快速构建，基于流的构建方式    Gulp和Webpack的区别 Gulp是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动构建工具gulp">
+<meta property="og:url" content="http://melon1996.github.io/2025/03/04/webpack/gulp/index.html">
+<meta property="og:site_name" content="从心de博客">
+<meta property="og:description" content="官网：https:&#x2F;&#x2F;www.gulpjs.com.cn&#x2F; 什么是gulpGulp 是一个基于Node.js的自动化构建工具，开发者可以使用它在项目开发过程中自动执行常见任务，例如压缩、合并文件，运行测试等。  主要特点：  丰富优秀的插件生态系统 易于学习和使用，每个插件都有对应的API，支持灵活的配置 易于维护和扩展 快速构建，基于流的构建方式    Gulp和Webpack的区别 Gulp是">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-03-04T11:53:40.000Z">
+<meta property="article:modified_time" content="2025-03-04T14:48:18.225Z">
+<meta property="article:author" content="xin chen">
+<meta property="article:tag" content="webpack">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="从心de博客" title="从心de博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="从心de博客">从心de博客</a></h1>
+				<h2 class="blog-motto">一起进步吧</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:melon1996.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2025/03/04/webpack/gulp/" title="自动构建工具gulp" itemprop="url">自动构建工具gulp</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="xin chen" target="_blank" itemprop="author">xin chen</a>
+		
+  <p class="article-time">
+    <time datetime="2025-03-04T11:53:40.000Z" itemprop="datePublished"> Published 2025-03-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFgulp"><span class="toc-number">1.</span> <span class="toc-text">什么是gulp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp%E5%92%8CWebpack%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">Gulp和Webpack的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Task"><span class="toc-number">3.1.</span> <span class="toc-text">Task</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream"><span class="toc-number">3.2.</span> <span class="toc-text">Stream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Globs"><span class="toc-number">3.3.</span> <span class="toc-text">Globs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Plugins"><span class="toc-number">3.4.</span> <span class="toc-text">Plugins</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<p>官网：<a target="_blank" rel="noopener" href="https://www.gulpjs.com.cn/">https://www.gulpjs.com.cn/</a></p>
+<h2 id="什么是gulp"><a href="#什么是gulp" class="headerlink" title="什么是gulp"></a>什么是gulp</h2><p>Gulp 是一个基于Node.js的自动化构建工具，开发者可以使用它在项目开发过程中自动执行常见任务，例如压缩、合并文件，运行测试等。</p>
+<ul>
+<li><p>主要特点：</p>
+<ul>
+<li>丰富优秀的插件生态系统</li>
+<li>易于学习和使用，每个插件都有对应的API，支持灵活的配置</li>
+<li>易于维护和扩展</li>
+<li>快速构建，基于流的构建方式</li>
+</ul>
+</li>
+</ul>
+<h2 id="Gulp和Webpack的区别"><a href="#Gulp和Webpack的区别" class="headerlink" title="Gulp和Webpack的区别"></a>Gulp和Webpack的区别</h2><ul>
+<li>Gulp是基于任务的自动化构建工具，通过定义一系列任务来实现构建流程，适合处理一些简单的任务，例如文件的压缩、合并、重命名等。</li>
+<li>Webpack是一个模块打包工具，通过定义入口文件，Webpack会自动分析模块之间的依赖关系，将模块打包成一个或多个文件。</li>
+</ul>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h3><ol>
+<li>任务（Task）：Gulp中的任务是一个函数，用于定义具体的构建任务，例如压缩文件、合并文件等。在Gulp中，任务是通过gulp.task()方法定义的:</li>
+</ol>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 入口文件</span></span><br><span class="line">gulp.<span class="title function_">task</span>(<span class="string">&#x27;task-name&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"> <span class="comment">// 任务代码</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>命令行中执行任务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp task-name</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>组合任务：可以通过gulp.series()和gulp.parallel()方法组合多个任务，实现任务的串行和并行执行。</li>
+</ol>
+<ul>
+<li>gulp.series()：串行执行任务，一个任务执行完毕后再执行下一个任务。</li>
+<li>gulp.parallel()：并行执行任务，多个任务同时执行。</li>
+</ul>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 串行执行任务</span></span><br><span class="line">gulp.<span class="title function_">task</span>(<span class="string">&#x27;task-name&#x27;</span>, gulp.<span class="title function_">series</span>(<span class="string">&#x27;task1&#x27;</span>, <span class="string">&#x27;task2&#x27;</span>, <span class="string">&#x27;task3&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 并行执行任务</span></span><br><span class="line">gulp.<span class="title function_">task</span>(<span class="string">&#x27;task-name&#x27;</span>, gulp.<span class="title function_">parallel</span>(<span class="string">&#x27;task1&#x27;</span>, <span class="string">&#x27;task2&#x27;</span>, <span class="string">&#x27;task3&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>默认任务：可以通过gulp.task()方法定义一个默认任务，当在命令行中执行gulp命令时，会执行默认任务。</li>
+</ol>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认任务</span></span><br><span class="line">gulp.<span class="title function_">task</span>(<span class="string">&#x27;default&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"> <span class="comment">// 任务代码</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>异步任务：Gulp中的任务支持异步操作，可以通过返回一个Promise对象或者调用回调函数来实现异步任务。</li>
+</ol>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步任务</span></span><br><span class="line">gulp.<span class="title function_">task</span>(<span class="string">&#x27;task-name&#x27;</span>, <span class="function">(<span class="params">done</span>) =&gt;</span> &#123;</span><br><span class="line"> <span class="comment">// 异步任务代码</span></span><br><span class="line"> <span class="title function_">done</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><ol>
+<li>流（Stream）：Gulp中的流是一种数据传输方式，用于处理文件的输入和输出。Gulp中的任务通常是通过流来处理文件，例如读取文件、压缩文件、合并文件等。流程就是<strong>输入&#x2F;读取流</strong>-&gt;<strong>加工&#x2F;转换流</strong>-&gt;<strong>输出&#x2F;写入流</strong>。</li>
+</ol>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取文件流</span></span><br><span class="line">gulp.<span class="title function_">src</span>(<span class="string">&#x27;src/*.js&#x27;</span>)</span><br><span class="line"> .<span class="title function_">pipe</span>(<span class="title function_">uglify</span>())</span><br><span class="line"> .<span class="title function_">pipe</span>(gulp.<span class="title function_">dest</span>(<span class="string">&#x27;dist&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出文件流</span></span><br><span class="line">gulp.<span class="title function_">src</span>(<span class="string">&#x27;src/*.js&#x27;</span>)</span><br><span class="line"> .<span class="title function_">pipe</span>(<span class="title function_">uglify</span>())</span><br><span class="line"> .<span class="title function_">pipe</span>(gulp.<span class="title function_">dest</span>(<span class="string">&#x27;dist&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="Globs"><a href="#Globs" class="headerlink" title="Globs"></a>Globs</h3><ol>
+<li>通配符（Globs）：Gulp中的通配符用于匹配文件路径，可以使用通配符来匹配多个文件，例如<code>*.js</code>匹配所有的js文件，<code>**/*.js</code>匹配所有的js文件和子目录中的js文件。</li>
+</ol>
+<ul>
+<li><code>*</code>：匹配任意数量的字符，但不匹配路径分隔符（&#x2F;）。</li>
+<li><code>**</code>：匹配任意数量的字符，包括路径分隔符（&#x2F;）。</li>
+<li><code>?</code>：匹配单个字符，但不匹配路径分隔符（&#x2F;）。</li>
+<li><code>!</code>：排除文件，匹配不符合条件的文件。</li>
+</ul>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配所有的js文件</span></span><br><span class="line">gulp.<span class="title function_">src</span>(<span class="string">&#x27;src/*.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 匹配所有的js文件和子目录中的js文件</span></span><br><span class="line">gulp.<span class="title function_">src</span>(<span class="string">&#x27;src/**/*.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 排除所有的test.js文件</span></span><br><span class="line">gulp.<span class="title function_">src</span>([<span class="string">&#x27;src/*.js&#x27;</span>, <span class="string">&#x27;!src/test.js&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Glob base：Gulp中的glob base用于指定文件的基础路径，可以通过base选项来指定glob base。</li>
+</ol>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定glob base</span></span><br><span class="line">gulp.<span class="title function_">src</span>(<span class="string">&#x27;src/**/*.js&#x27;</span>, &#123; <span class="attr">base</span>: <span class="string">&#x27;src&#x27;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h3><ol>
+<li>插件（Plugins）：Gulp中的插件是用于处理文件的函数，例如压缩文件、合并文件等。Gulp中有很多优秀的插件，可以通过npm安装，例如<code>gulp-uglify</code>用于压缩js文件，<code>gulp-concat</code>用于合并文件。每个插件只完成必要的工作，可以使用<code>pipe()</code>方法将多个插件串联起来并放在<code>src()</code>和<code>dest()</code>之间。</li>
+</ol>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装插件</span></span><br><span class="line">npm install gulp-uglify --save-dev</span><br><span class="line">npm install gulp-concat --save-dev</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用插件</span></span><br><span class="line"><span class="keyword">const</span> uglify = <span class="built_in">require</span>(<span class="string">&#x27;gulp-uglify&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> concat = <span class="built_in">require</span>(<span class="string">&#x27;gulp-concat&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>  Gulp 可以帮助我们自动化构建项目流程，压缩合并文件，虽然现如今Webpack已经成为主流的构建工具，但Gulp依然有着自己的优势。在实际项目中，可以根据项目的需求选择合适的构建工具，或者结合使用Gulp和Webpack来实现更加灵活和高效的构建流程。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/webpack/">webpack</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://melon1996.github.io/2025/03/04/webpack/gulp/" data-title="自动构建工具gulp | 从心de博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2025/03/05/http/http发展/" title="">
+  <strong>上一篇：</strong><br/>
+  <span>
+  (no title)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2025/03/04/webpack/hmr/"  title="webpack的HMR原理">
+ <strong>下一篇：</strong><br/> 
+ <span>webpack的HMR原理
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFgulp"><span class="toc-number">1.</span> <span class="toc-text">什么是gulp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gulp%E5%92%8CWebpack%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">Gulp和Webpack的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Task"><span class="toc-number">3.1.</span> <span class="toc-text">Task</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream"><span class="toc-number">3.2.</span> <span class="toc-text">Stream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Globs"><span class="toc-number">3.3.</span> <span class="toc-text">Globs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Plugins"><span class="toc-number">3.4.</span> <span class="toc-text">Plugins</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http/" title="http">http<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webpack/" title="webpack">webpack<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vue/" title="vue">vue<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 这里是从心的blog哟~ <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:853370932@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2025 
+		
+		<a href="/about" target="_blank" title="xin chen">xin chen</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
